@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PacketGuard | Dashboard</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <!-- ================= HEADER ================= -->
+
+        <header class="dashboard-header">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    🛡️
+                </div>
+
+                <div>
+                    <h1>PACKET<span>GUARD</span></h1>
+
+                    <p>
+                        Security Operations & Learning Lab
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="user-area">
+
+                <div class="user-info">
+
+                    <span class="user-label">
+                        CYBER DEFENDER
+                    </span>
+
+                    <strong id="usernameDisplay">
+                        Defender
+                    </strong>
+
+                </div>
+
+                <button class="logout-button" onclick="logout()">
+
+                    LOGOUT
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= WELCOME ================= -->
+
+        <section class="welcome-section">
+
+            <div>
+
+                <p class="section-label">
+                    SECURITY LAB
+                </p>
+
+                <h2>
+                    Welcome back,
+                    <span id="welcomeUser">
+                        Defender
+                    </span> 👋
+                </h2>
+
+                <p class="welcome-description">
+
+                    Train your packet analysis skills,
+                    detect anomalies and defend the network.
+
+                </p>
+
+            </div>
+
+
+            <div class="security-status">
+
+                <span class="status-dot"></span>
+
+                SYSTEM ONLINE
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= STATISTICS ================= -->
+
+        <section class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span class="stat-title">
+                        CURRENT LEVEL
+                    </span>
+
+                    <span class="stat-icon">
+                        🎯
+                    </span>
+
+                </div>
+
+                <div class="stat-value">
+                    01
+                </div>
+
+                <div class="progress-bar">
+
+                    <div class="progress-fill" style="width: 35%;">
+                    </div>
+
+                </div>
+
+                <p class="stat-footer">
+                    350 / 1000 XP
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span class="stat-title">
+                        TOTAL XP
+                    </span>
+
+                    <span class="stat-icon">
+                        ⚡
+                    </span>
+
+                </div>
+
+                <div class="stat-value" id="xpValue">
+
+                    350
+
+                </div>
+
+                <p class="stat-footer">
+                    +150 this session
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span class="stat-title">
+                        ACCURACY
+                    </span>
+
+                    <span class="stat-icon">
+                        🎯
+                    </span>
+
+                </div>
+
+                <div class="stat-value" id="accuracyValue">
+
+                    0%
+
+                </div>
+
+                <p class="stat-footer">
+                    Packet analysis accuracy
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span class="stat-title">
+                        MISSIONS
+                    </span>
+
+                    <span class="stat-icon">
+                        🏆
+                    </span>
+
+                </div>
+
+                <div class="stat-value" id="missionValue">
+
+                    0
+
+                </div>
+
+                <p class="stat-footer">
+                    Missions completed
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= MODULES ================= -->
+
+        <section class="modules-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-label">
+                        TRAINING CENTER
+                    </p>
+
+                    <h2>
+                        Security Modules
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="modules-grid">
+
+
+                <!-- LEARN -->
+
+                <div class="module-card">
+
+                    <div class="module-header">
+
+                        <div class="module-icon blue">
+                            📚
+                        </div>
+
+                        <span class="module-number">
+                            01
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        LEARN
+                    </h3>
+
+                    <p>
+                        Learn networking fundamentals,
+                        packet structure and basic
+                        cybersecurity concepts.
+                    </p>
+
+                    <div class="module-topics">
+
+                        <span>NETWORKS</span>
+                        <span>PACKETS</span>
+                        <span>SECURITY</span>
+
+                    </div>
+
+                    <button class="module-button">
+                        START LEARNING →
+                    </button>
+
+                </div>
+
+
+                <!-- SIMULATE -->
+
+                <div class="module-card featured">
+
+                    <div class="module-header">
+
+                        <div class="module-icon cyan">
+                            ⚡
+                        </div>
+
+                        <span class="module-number">
+                            02
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        SIMULATE
+                    </h3>
+
+                    <p>
+                        Generate controlled network
+                        traffic and observe packet
+                        behaviour in real time.
+                    </p>
+
+                    <div class="module-topics">
+
+                        <span>TCP</span>
+                        <span>UDP</span>
+                        <span>TRAFFIC</span>
+
+                    </div>
+
+                    <button class="module-button" onclick="startSimulation()">
+
+                        START SIMULATION →
+
+                    </button>
+
+                </div>
+
+
+                <!-- ANALYSE -->
+
+                <div class="module-card">
+
+                    <div class="module-header">
+
+                        <div class="module-icon purple">
+                            🔍
+                        </div>
+
+                        <span class="module-number">
+                            03
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        ANALYSE
+                    </h3>
+
+                    <p>
+                        Inspect packets, identify
+                        anomalies and investigate
+                        suspicious behaviour.
+                    </p>
+
+                    <div class="module-topics">
+
+                        <span>ANOMALIES</span>
+                        <span>FORENSICS</span>
+                        <span>THREATS</span>
+
+                    </div>
+
+                    <button class="module-button">
+                        OPEN ANALYZER →
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= MISSION ================= -->
+
+        <section class="mission-card">
+
+            <div class="mission-icon">
+                🛡️
+            </div>
+
+            <div class="mission-content">
+
+                <span class="mission-label">
+                    RECOMMENDED MISSION
+                </span>
+
+                <h2>
+                    Mission 01 — Packet Stream
+                </h2>
+
+                <p>
+                    Analyze a simulated network stream
+                    and identify abnormal packet behaviour.
+                </p>
+
+            </div>
+
+            <div>
+
+                <button class="mission-button" onclick="startSimulation()">
+
+                    START MISSION
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= FOOTER ================= -->
+
+        <footer>
+
+            <span>
+                PACKETGUARD v1.0
+            </span>
+
+            <span>
+                LEARN • SIMULATE • DETECT • DEFEND
+            </span>
+
+        </footer>
+
+    </div>
+
+
+    <script src="js/dashboard.js"></script>
+
+</body>
+
+</html>

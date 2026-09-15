@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PacketGuard | Packet Simulator</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+    <div class="dashboard">
+
+
+        <!-- HEADER -->
+
+        <header class="dashboard-header">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    🛡️
+                </div>
+
+                <div>
+
+                    <h1>
+                        PACKET<span>GUARD</span>
+                    </h1>
+
+                    <p>
+                        Network Simulation Laboratory
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="simulator-controls">
+
+                <button onclick="generatePackets()">
+                    ⚡ GENERATE TRAFFIC
+                </button>
+
+                <button class="logout-button" onclick="goDashboard()">
+
+                    DASHBOARD
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- MISSION -->
+
+        <section class="welcome-section">
+
+            <div>
+
+                <p class="section-label">
+                    MISSION 01
+                </p>
+
+                <h2>
+                    Packet Stream Analysis
+                </h2>
+
+                <p class="welcome-description">
+
+                    Generate simulated network traffic
+                    and investigate packet behaviour.
+
+                </p>
+
+            </div>
+
+
+            <div class="security-status">
+
+                <span class="status-dot"></span>
+
+                SIMULATION READY
+
+            </div>
+
+        </section>
+
+
+        <!-- STATISTICS -->
+
+        <section class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span class="stat-title">
+                        TOTAL PACKETS
+                    </span>
+
+                    <span class="stat-icon">
+                        📦
+                    </span>
+
+                </div>
+
+                <div class="stat-value" id="totalPackets">
+
+                    0
+
+                </div>
+
+                <p class="stat-footer">
+                    Generated packets
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span class="stat-title">
+                        NORMAL
+                    </span>
+
+                    <span class="stat-icon">
+                        ✓
+                    </span>
+
+                </div>
+
+                <div class="stat-value" id="normalPackets">
+
+                    0
+
+                </div>
+
+                <p class="stat-footer">
+                    Normal traffic
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span class="stat-title">
+                        ANOMALIES
+                    </span>
+
+                    <span class="stat-icon">
+                        ⚠
+                    </span>
+
+                </div>
+
+                <div class="stat-value" id="anomalyPackets">
+
+                    0
+
+                </div>
+
+                <p class="stat-footer">
+                    Abnormal events
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span class="stat-title">
+                        SCORE
+                    </span>
+
+                    <span class="stat-icon">
+                        🎯
+                    </span>
+
+                </div>
+
+                <div class="stat-value" id="score">
+
+                    0
+
+                </div>
+
+                <p class="stat-footer">
+                    Mission points
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- PACKET STREAM -->
+
+        <section class="packet-panel">
+
+            <div class="panel-heading">
+
+                <div>
+
+                    <p class="section-label">
+                        LIVE TRAFFIC
+                    </p>
+
+                    <h2>
+                        Packet Stream
+                    </h2>
+
+                </div>
+
+
+                <span id="packetStatus">
+
+                    Waiting for traffic...
+
+                </span>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>SOURCE</th>
+
+                            <th>DESTINATION</th>
+
+                            <th>PROTOCOL</th>
+
+                            <th>SEQ</th>
+
+                            <th>SIZE</th>
+
+                            <th>STATUS</th>
+
+                            <th>ACTION</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="packetTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+
+    <script src="js/simulator.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,1014 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #050b14;
+    color: white;
+}
+
+
+/* =========================
+   LOGIN CONTAINER
+========================= */
+
+.login-container {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+
+    background:
+        radial-gradient(circle at 50% 20%,
+            #12365c 0%,
+            #081525 35%,
+            #050b14 75%);
+}
+
+
+/* =========================
+   LOGIN CARD
+========================= */
+
+.login-card {
+    width: 430px;
+
+    padding: 45px;
+
+    text-align: center;
+
+    background: rgba(10, 24, 41, 0.96);
+
+    border: 1px solid #1c537c;
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 0 40px rgba(0, 174, 232, 0.12);
+}
+
+
+/* =========================
+   SHIELD
+========================= */
+
+.shield {
+    font-size: 70px;
+
+    margin-bottom: 10px;
+
+    filter:
+        drop-shadow(0 0 15px rgba(0, 200, 255, 0.4));
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+h1 {
+    font-size: 40px;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 8px;
+}
+
+h1 span {
+    color: #00c8ff;
+}
+
+
+/* =========================
+   TAGLINE
+========================= */
+
+.tagline {
+    color: #8fdfff;
+
+    font-size: 16px;
+
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    color: #7e91a5;
+
+    font-size: 14px;
+
+    margin-top: 10px;
+
+    margin-bottom: 30px;
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+.input-group {
+    text-align: left;
+
+    margin-bottom: 18px;
+}
+
+.input-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #9eb1c4;
+
+    font-size: 14px;
+}
+
+.input-group input {
+    width: 100%;
+
+    padding: 14px;
+
+    background: #081726;
+
+    border: 1px solid #214663;
+
+    border-radius: 10px;
+
+    color: white;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #00c8ff;
+
+    box-shadow:
+        0 0 10px rgba(0, 200, 255, 0.15);
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+button {
+    width: 100%;
+
+    padding: 15px;
+
+    margin-top: 8px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #00aee8;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #008fc0;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+#loginMessage {
+    margin-top: 18px;
+
+    color: #00c8ff;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer-text {
+    margin-top: 30px;
+
+    color: #52687c;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+}
+
+/* =========================================
+   PACKETGUARD DASHBOARD
+========================================= */
+
+.dashboard {
+    min-height: 100vh;
+
+    padding: 25px 40px;
+
+    background:
+        radial-gradient(circle at 80% 0%,
+            #102c49 0%,
+            #07111f 35%,
+            #050b14 80%);
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.dashboard-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 20px 25px;
+
+    background: rgba(10, 27, 45, 0.95);
+
+    border: 1px solid #19496e;
+
+    border-radius: 16px;
+}
+
+
+.brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+.brand-icon {
+    font-size: 42px;
+}
+
+
+.brand h1 {
+    font-size: 25px;
+
+    letter-spacing: 2px;
+}
+
+
+.brand h1 span {
+    color: #00c8ff;
+}
+
+
+.brand p {
+    margin-top: 4px;
+
+    color: #71879b;
+
+    font-size: 12px;
+}
+
+
+.user-area {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+
+.user-info {
+    text-align: right;
+}
+
+
+.user-label {
+    display: block;
+
+    color: #5e768b;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+
+.user-info strong {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #d8e7f2;
+}
+
+
+.logout-button {
+    width: auto;
+
+    margin: 0;
+
+    padding: 10px 16px;
+
+    background: transparent;
+
+    border: 1px solid #31546d;
+
+    font-size: 11px;
+}
+
+
+.logout-button:hover {
+    background: #142b40;
+
+    border-color: #00c8ff;
+}
+
+
+/* =========================================
+   WELCOME
+========================================= */
+
+.welcome-section {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin: 35px 0 25px;
+}
+
+
+.section-label {
+    color: #00c8ff;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 7px;
+}
+
+
+.welcome-section h2 {
+    font-size: 30px;
+}
+
+
+.welcome-section h2 span {
+    color: #00c8ff;
+}
+
+
+.welcome-description {
+    margin-top: 8px;
+
+    color: #7f94a8;
+
+    font-size: 14px;
+}
+
+
+.security-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 10px 15px;
+
+    border-radius: 20px;
+
+    background: #0b2b28;
+
+    border: 1px solid #15534b;
+
+    color: #5ee5ce;
+
+    font-size: 11px;
+
+    font-weight: bold;
+}
+
+
+.status-dot {
+    width: 8px;
+
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #4ee5c5;
+
+    box-shadow:
+        0 0 10px #4ee5c5;
+}
+
+
+/* =========================================
+   STATISTICS
+========================================= */
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 18px;
+}
+
+
+.stat-card {
+    padding: 20px;
+
+    background: rgba(10, 27, 45, 0.9);
+
+    border: 1px solid #183e5c;
+
+    border-radius: 15px;
+}
+
+
+.stat-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+
+.stat-title {
+    color: #6f879c;
+
+    font-size: 10px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+}
+
+
+.stat-icon {
+    font-size: 20px;
+}
+
+
+.stat-value {
+    margin-top: 12px;
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    color: #00c8ff;
+}
+
+
+.progress-bar {
+    height: 5px;
+
+    margin-top: 10px;
+
+    background: #172b3e;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+
+.progress-fill {
+    height: 100%;
+
+    background: #00c8ff;
+}
+
+
+.stat-footer {
+    margin-top: 10px;
+
+    color: #647a8e;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   MODULES
+========================================= */
+
+.modules-section {
+    margin-top: 40px;
+}
+
+
+.section-heading h2 {
+    font-size: 25px;
+}
+
+
+.modules-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+
+    margin-top: 18px;
+}
+
+
+.module-card {
+    position: relative;
+
+    padding: 25px;
+
+    min-height: 330px;
+
+    background: rgba(10, 27, 45, 0.92);
+
+    border: 1px solid #183e5c;
+
+    border-radius: 18px;
+
+    transition: 0.25s;
+}
+
+
+.module-card:hover {
+    transform: translateY(-4px);
+
+    border-color: #2c6b91;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+
+.module-card.featured {
+    border-color: #087da4;
+
+    background:
+        linear-gradient(145deg,
+            #0d2c43,
+            #0a1c2d);
+}
+
+
+.module-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+
+.module-icon {
+    width: 55px;
+
+    height: 55px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 14px;
+
+    font-size: 28px;
+}
+
+
+.module-icon.blue {
+    background: #102e50;
+}
+
+
+.module-icon.cyan {
+    background: #063d52;
+}
+
+
+.module-icon.purple {
+    background: #2a214e;
+}
+
+
+.module-number {
+    color: #40596e;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+
+.module-card h3 {
+    margin-top: 25px;
+
+    font-size: 21px;
+
+    letter-spacing: 1px;
+}
+
+
+.module-card p {
+    margin-top: 10px;
+
+    color: #7d91a4;
+
+    line-height: 1.6;
+
+    font-size: 13px;
+}
+
+
+.module-topics {
+    display: flex;
+
+    gap: 7px;
+
+    margin-top: 18px;
+}
+
+
+.module-topics span {
+    padding: 5px 8px;
+
+    background: #102438;
+
+    border-radius: 5px;
+
+    color: #6e91a9;
+
+    font-size: 8px;
+
+    letter-spacing: 0.5px;
+}
+
+
+.module-button {
+    position: absolute;
+
+    left: 25px;
+
+    right: 25px;
+
+    bottom: 22px;
+
+    width: calc(100% - 50px);
+
+    margin: 0;
+
+    padding: 11px;
+
+    background: transparent;
+
+    border: 1px solid #25516d;
+
+    font-size: 10px;
+}
+
+
+.module-button:hover {
+    background: #00aee8;
+
+    border-color: #00aee8;
+}
+
+
+/* =========================================
+   MISSION
+========================================= */
+
+.mission-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    margin-top: 30px;
+
+    padding: 22px 25px;
+
+    background:
+        linear-gradient(100deg,
+            #0c2941,
+            #0b1e31);
+
+    border: 1px solid #205677;
+
+    border-radius: 18px;
+}
+
+
+.mission-icon {
+    font-size: 40px;
+}
+
+
+.mission-content {
+    flex: 1;
+}
+
+
+.mission-label {
+    color: #00c8ff;
+
+    font-size: 9px;
+
+    font-weight: bold;
+
+    letter-spacing: 1.5px;
+}
+
+
+.mission-content h2 {
+    margin-top: 5px;
+
+    font-size: 18px;
+}
+
+
+.mission-content p {
+    margin-top: 5px;
+
+    color: #748a9d;
+
+    font-size: 12px;
+}
+
+
+.mission-button {
+    width: auto;
+
+    margin: 0;
+
+    padding: 12px 20px;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 30px;
+
+    padding: 15px 5px;
+
+    color: #455c70;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .stats-grid,
+    .modules-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .dashboard {
+        padding: 15px;
+    }
+
+    .dashboard-header,
+    .welcome-section,
+    .mission-card {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+    .stats-grid,
+    .modules-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .user-area {
+        width: 100%;
+
+        justify-content: space-between;
+    }
+
+    footer {
+        flex-direction: column;
+
+        gap: 8px;
+    }
+
+}
+
+/* =========================================
+   PACKET STREAM TABLE
+========================================= */
+
+.packet-panel {
+    margin-top: 30px;
+    padding: 25px;
+
+    background: rgba(10, 27, 45, 0.95);
+
+    border: 1px solid #183e5c;
+
+    border-radius: 18px;
+}
+
+
+.panel-heading {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+
+
+.panel-heading h2 {
+    font-size: 22px;
+}
+
+
+#packetStatus {
+    padding: 8px 12px;
+
+    border-radius: 20px;
+
+    background: #0b2b28;
+
+    border: 1px solid #15534b;
+
+    color: #5ee5ce;
+
+    font-size: 10px;
+}
+
+
+.table-container {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+.packet-panel table {
+
+    width: 100%;
+
+    min-width: 950px;
+
+    border-collapse: collapse;
+
+}
+
+
+.packet-panel th {
+
+    padding: 14px 12px;
+
+    text-align: left;
+
+    background: #091a2a;
+
+    color: #00c8ff;
+
+    font-size: 10px;
+
+    letter-spacing: 0.7px;
+
+    border-bottom: 1px solid #24516c;
+
+}
+
+
+.packet-panel td {
+
+    padding: 13px 12px;
+
+    color: #a8bac9;
+
+    font-size: 11px;
+
+    border-bottom: 1px solid #183247;
+
+}
+
+
+.packet-panel tr:hover {
+
+    background: #0d263d;
+
+}
+
+
+/* =========================================
+   PACKET STATUS
+========================================= */
+
+.packet-status {
+
+    display: inline-block;
+
+    padding: 5px 8px;
+
+    border-radius: 5px;
+
+    background: #11283a;
+
+    color: #7fabc4;
+
+    font-size: 9px;
+
+    font-weight: bold;
+
+}
+
+
+/* =========================================
+   ANALYSE BUTTON
+========================================= */
+
+.analyse-button {
+
+    width: auto;
+
+    margin: 0;
+
+    padding: 7px 12px;
+
+    background: transparent;
+
+    border: 1px solid #24516c;
+
+    border-radius: 6px;
+
+    color: white;
+
+    font-size: 9px;
+
+}
+
+
+.analyse-button:hover {
+
+    background: #00aee8;
+
+    border-color: #00aee8;
+
+}
