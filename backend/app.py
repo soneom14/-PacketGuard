@@ -15,7 +15,6 @@ BASE_DIR = os.path.dirname(
     )
 )
 
-
 # Frontend directory
 FRONTEND_DIR = os.path.join(
     BASE_DIR,
@@ -28,15 +27,7 @@ FRONTEND_DIR = os.path.join(
 # ============================================================
 
 # Add the project root to Python's module search path.
-#
-# This allows:
-#
-# from packet_engine.packet_generator import ...
-#
-# to work correctly.
-
 if BASE_DIR not in sys.path:
-
     sys.path.insert(
         0,
         BASE_DIR
@@ -49,6 +40,10 @@ if BASE_DIR not in sys.path:
 
 from packet_engine.packet_generator import (
     generate_packet_stream
+)
+
+from packet_engine.packet_analyzer import (
+    analyze_packets
 )
 
 
@@ -100,13 +95,9 @@ def frontend_files(filename):
 def health():
 
     return jsonify({
-
         "status": "online",
-
         "service": "PacketGuard API",
-
         "engine": "Python Packet Engine"
-
     })
 
 
@@ -125,26 +116,21 @@ def simulate_packets():
         silent=True
     ) or {}
 
-
     # Get requested packet count
     count = data.get(
         "count",
         20
     )
 
-
     # Make sure count is an integer
     try:
-
         count = int(count)
 
     except (
         TypeError,
         ValueError
     ):
-
         count = 20
-
 
     # Security / resource limit
     #
@@ -156,17 +142,25 @@ def simulate_packets():
         min(count, 100)
     )
 
-
-    # Generate packets using
-    # the Python packet engine
+    # --------------------------------------------------------
+    # Generate simulated packets
+    # --------------------------------------------------------
 
     packets = generate_packet_stream(
         count
     )
 
+    # --------------------------------------------------------
+    # Analyse generated packets
+    # --------------------------------------------------------
 
-    # Send packets back to browser
-    # as JSON
+    analysis = analyze_packets(
+        packets
+    )
+
+    # --------------------------------------------------------
+    # Send packets + analysis back to browser
+    # --------------------------------------------------------
 
     return jsonify({
 
@@ -174,7 +168,9 @@ def simulate_packets():
 
         "count": len(packets),
 
-        "packets": packets
+        "packets": packets,
+
+        "analysis": analysis
 
     })
 
@@ -202,25 +198,45 @@ def page_not_found(error):
 if __name__ == "__main__":
 
     print()
+
     print("=" * 60)
-    print("        PACKETGUARD SECURITY LAB")
+
+    print(
+        "        PACKETGUARD SECURITY LAB"
+    )
+
     print("=" * 60)
-    print()
-    print("Server: http://127.0.0.1:5000")
-    print("Health: http://127.0.0.1:5000/api/health")
-    print("API:    POST /api/simulate")
-    print()
-    print("Python Packet Engine: ONLINE")
-    print("=" * 60)
+
     print()
 
+    print(
+        "Server: http://127.0.0.1:5000"
+    )
+
+    print(
+        "Health: http://127.0.0.1:5000/api/health"
+    )
+
+    print(
+        "API:    POST /api/simulate"
+    )
+
+    print()
+
+    print(
+        "Python Packet Engine: ONLINE"
+    )
+
+    print(
+        "Packet Analyzer: ONLINE"
+    )
+
+    print("=" * 60)
+
+    print()
 
     app.run(
-
         host="127.0.0.1",
-
         port=5000,
-
         debug=True
-
     )
