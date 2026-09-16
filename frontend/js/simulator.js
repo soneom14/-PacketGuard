@@ -1,92 +1,120 @@
 let packets = [];
 let score = 0;
+let analysisResult = null;
 
 
 // =========================================
 // GENERATE SIMULATED PACKETS
 // =========================================
 
-function generatePackets() {
+async function generatePackets() {
 
     packets = [];
     score = 0;
+    analysisResult = null;
 
-    const statuses = [
-        "NORMAL",
-        "NORMAL",
-        "NORMAL",
-        "NORMAL",
-        "NORMAL",
-        "NORMAL",
-        "PACKET LOSS",
-        "DUPLICATE",
-        "REORDERED",
-        "TAMPERED"
-    ];
+    const packetStatus =
+        document.getElementById("packetStatus");
 
+    if (packetStatus) {
+        packetStatus.textContent =
+            "● GENERATING TRAFFIC...";
+    }
 
-    // Generate 20 packets
+    try {
 
-    for (let i = 1; i <= 20; i++) {
+        // Send request to Flask backend
+        const response = await fetch(
+            "/api/simulate",
+            {
+                method: "POST",
 
-        const status =
-            statuses[
-            Math.floor(
-                Math.random() * statuses.length
-            )
-            ];
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-
-        const sourceNumber =
-            Math.floor(Math.random() * 3) + 10;
+                body: JSON.stringify({
+                    count: 20
+                })
+            }
+        );
 
 
-        const destinationNumber =
-            Math.floor(Math.random() * 2) + 20;
+        if (!response.ok) {
+            throw new Error(
+                "Server returned " + response.status
+            );
+        }
 
 
-        const packet = {
-
-            id: i,
-
-            source:
-                `192.168.1.${sourceNumber}`,
-
-            destination:
-                `192.168.1.${destinationNumber}`,
-
-            protocol:
-                Math.random() > 0.5
-                    ? "TCP"
-                    : "UDP",
-
-            sequence:
-                1000 + i,
-
-            size:
-                Math.floor(
-                    Math.random() * 1437
-                ) + 64,
-
-            status: status
-
-        };
+        // Convert response to JSON
+        const data =
+            await response.json();
 
 
-        packets.push(packet);
+        if (!data.success) {
+
+            throw new Error(
+                data.error ||
+                "Packet simulation failed."
+            );
+
+        }
+
+
+        // Store generated packets
+        packets =
+            data.packets || [];
+
+
+        // Store backend analysis
+        analysisResult =
+            data.analysis || null;
+
+
+        // Display packets
+        displayPackets();
+
+
+        // Update statistics
+        updateStats();
+
+
+        // Display analysis
+        displayAnalysis();
+
+
+        if (packetStatus) {
+
+            packetStatus.textContent =
+                "● LIVE TRAFFIC ANALYSED";
+
+        }
 
     }
 
+    catch (error) {
 
-    displayPackets();
+        console.error(
+            "Packet simulation error:",
+            error
+        );
 
-    updateStats();
+
+        if (packetStatus) {
+
+            packetStatus.textContent =
+                "● SIMULATION ERROR";
+
+        }
 
 
-    document.getElementById(
-        "packetStatus"
-    ).textContent =
-        "● LIVE TRAFFIC GENERATED";
+        alert(
+            "Unable to connect to PacketGuard backend.\n\n" +
+            "Make sure Flask is running on http://127.0.0.1:5000"
+        );
+
+    }
 
 }
 
@@ -103,6 +131,11 @@ function displayPackets() {
         );
 
 
+    if (!table) {
+        return;
+    }
+
+
     table.innerHTML = "";
 
 
@@ -112,36 +145,88 @@ function displayPackets() {
             document.createElement("tr");
 
 
+        const packetId =
+            packet.id ??
+            packet.packet_id ??
+            "-";
+
+
+        const source =
+            packet.source ??
+            packet.source_ip ??
+            "-";
+
+
+        const destination =
+            packet.destination ??
+            packet.destination_ip ??
+            "-";
+
+
+        const protocol =
+            packet.protocol ??
+            "-";
+
+
+        const sequence =
+            packet.sequence ??
+            "-";
+
+
+        const size =
+            packet.size ??
+            packet.length ??
+            packet.packet_size ??
+            "-";
+
+
+        let status =
+            packet.status ??
+            "NORMAL";
+
+
+        // If backend uses integrity instead of status
+        if (
+            status === "NORMAL" &&
+            packet.integrity &&
+            String(packet.integrity).toUpperCase() === "INVALID"
+        ) {
+
+            status = "TAMPERED";
+
+        }
+
+
         row.innerHTML = `
 
             <td>
-                #${packet.id}
+                #${packetId}
             </td>
 
             <td>
-                ${packet.source}
+                ${source}
             </td>
 
             <td>
-                ${packet.destination}
+                ${destination}
             </td>
 
             <td>
-                ${packet.protocol}
+                ${protocol}
             </td>
 
             <td>
-                ${packet.sequence}
+                ${sequence}
             </td>
 
             <td>
-                ${packet.size} B
+                ${size} B
             </td>
 
             <td>
 
                 <span class="packet-status">
-                    ${packet.status}
+                    ${status}
                 </span>
 
             </td>
@@ -150,7 +235,7 @@ function displayPackets() {
 
                 <button
                     class="analyse-button"
-                    onclick="analyzePacket(${packet.id})">
+                    onclick="analyzePacket('${packetId}')">
 
                     ANALYSE
 
@@ -169,14 +254,18 @@ function displayPackets() {
 
 
 // =========================================
-// ANALYSE PACKET
+// ANALYSE INDIVIDUAL PACKET
 // =========================================
 
 function analyzePacket(id) {
 
     const packet =
         packets.find(
-            p => p.id === id
+            p =>
+                String(
+                    p.id ??
+                    p.packet_id
+                ) === String(id)
         );
 
 
@@ -185,90 +274,295 @@ function analyzePacket(id) {
     }
 
 
-    let message = "";
+    const packetId =
+        packet.id ??
+        packet.packet_id ??
+        "-";
 
 
-    switch (packet.status) {
-
-        case "NORMAL":
-
-            message =
-                "✓ Packet behaviour appears normal.";
-
-            break;
+    const source =
+        packet.source ??
+        packet.source_ip ??
+        "-";
 
 
-        case "PACKET LOSS":
-
-            message =
-                "⚠ Possible packet loss detected.";
-
-            break;
+    const destination =
+        packet.destination ??
+        packet.destination_ip ??
+        "-";
 
 
-        case "DUPLICATE":
-
-            message =
-                "⚠ Duplicate packet detected.";
-
-            break;
+    const protocol =
+        packet.protocol ??
+        "-";
 
 
-        case "REORDERED":
-
-            message =
-                "⚠ Packet sequence appears out of order.";
-
-            break;
+    const sequence =
+        packet.sequence ??
+        "-";
 
 
-        case "TAMPERED":
+    const size =
+        packet.size ??
+        packet.length ??
+        packet.packet_size ??
+        "-";
 
-            message =
-                "🚨 Possible packet tampering detected.";
 
-            break;
+    const integrity =
+        packet.integrity ??
+        "N/A";
+
+
+    let message =
+        "✓ Packet behaviour appears normal.";
+
+
+    if (
+        String(integrity).toUpperCase() ===
+        "INVALID"
+    ) {
+
+        message =
+            "🚨 Possible packet integrity problem detected.";
 
     }
 
 
-    // Increase score for detecting an anomaly
+    // Increase score for analysing a packet
+    score += 5;
 
-    if (packet.status !== "NORMAL") {
 
-        score += 10;
+    const scoreElement =
+        document.getElementById("score");
+
+
+    if (scoreElement) {
+
+        scoreElement.textContent =
+            score;
 
     }
-
-
-    document.getElementById(
-        "score"
-    ).textContent = score;
 
 
     alert(
 
-        "PACKET #" + packet.id +
+        "PACKET #" +
+        packetId +
 
         "\n\nSource: " +
-        packet.source +
+        source +
 
         "\nDestination: " +
-        packet.destination +
+        destination +
 
         "\nProtocol: " +
-        packet.protocol +
+        protocol +
 
         "\nSequence: " +
-        packet.sequence +
+        sequence +
 
         "\nSize: " +
-        packet.size +
-        " bytes\n\n" +
+        size +
+        " bytes" +
 
+        "\nIntegrity: " +
+        integrity +
+
+        "\n\n" +
         message
 
     );
+
+}
+
+
+// =========================================
+// DISPLAY BACKEND ANALYSIS
+// =========================================
+
+function displayAnalysis() {
+
+    if (!analysisResult) {
+        return;
+    }
+
+
+    let analysisPanel =
+        document.getElementById(
+            "packetAnalysisPanel"
+        );
+
+
+    // Create panel if it doesn't exist
+    if (!analysisPanel) {
+
+        analysisPanel =
+            document.createElement("div");
+
+        analysisPanel.id =
+            "packetAnalysisPanel";
+
+
+        analysisPanel.style.margin =
+            "20px 0";
+
+        analysisPanel.style.padding =
+            "20px";
+
+        analysisPanel.style.border =
+            "1px solid rgba(0, 191, 255, 0.35)";
+
+        analysisPanel.style.borderRadius =
+            "12px";
+
+        analysisPanel.style.background =
+            "rgba(0, 0, 0, 0.25)";
+
+        analysisPanel.style.color =
+            "#ffffff";
+
+
+        const table =
+            document.getElementById(
+                "packetTable"
+            );
+
+
+        if (
+            table &&
+            table.parentElement
+        ) {
+
+            table.parentElement
+                .parentElement
+                .insertBefore(
+                    analysisPanel,
+                    table.parentElement
+                );
+
+        }
+
+        else {
+
+            document.body.prepend(
+                analysisPanel
+            );
+
+        }
+
+    }
+
+
+    const summary =
+        analysisResult.summary || {};
+
+
+    const anomalies =
+        analysisResult.anomalies || [];
+
+
+    let anomalyHTML =
+        "";
+
+
+    if (anomalies.length === 0) {
+
+        anomalyHTML = `
+            <p>
+                ✓ No packet anomalies detected.
+            </p>
+        `;
+
+    }
+
+    else {
+
+        anomalyHTML =
+            anomalies.map(
+                anomaly => `
+
+                    <div
+                        style="
+                            margin-top:10px;
+                            padding:10px;
+                            border-radius:8px;
+                            background:rgba(255,255,255,0.06);
+                        "
+                    >
+
+                        <strong>
+                            ${anomaly.type}
+                        </strong>
+
+                        <br>
+
+                        Severity:
+                        ${anomaly.severity}
+
+                        <br>
+
+                        ${anomaly.description}
+
+                    </div>
+
+                `
+            ).join("");
+
+    }
+
+
+    analysisPanel.innerHTML = `
+
+        <h2>
+            🛡️ Packet Analysis
+        </h2>
+
+        <p>
+            <strong>Status:</strong>
+            ${analysisResult.status}
+        </p>
+
+        <p>
+            <strong>Total Packets:</strong>
+            ${analysisResult.total_packets}
+        </p>
+
+        <hr>
+
+        <h3>
+            Analysis Summary
+        </h3>
+
+        <p>
+            📉 Packet Loss:
+            ${summary.packet_loss ?? 0}
+        </p>
+
+        <p>
+            🔁 Duplicates:
+            ${summary.duplicates ?? 0}
+        </p>
+
+        <p>
+            🔀 Reordered:
+            ${summary.reordered ?? 0}
+        </p>
+
+        <p>
+            🔐 Integrity Errors:
+            ${summary.integrity_errors ?? 0}
+        </p>
+
+        <hr>
+
+        <h3>
+            Detected Anomalies
+        </h3>
+
+        ${anomalyHTML}
+
+    `;
 
 }
 
@@ -283,34 +577,90 @@ function updateStats() {
         packets.length;
 
 
-    const normal =
-        packets.filter(
-            p => p.status === "NORMAL"
-        ).length;
+    let normal = total;
+
+
+    // Use backend analysis when available
+    if (analysisResult) {
+
+        const summary =
+            analysisResult.summary || {};
+
+
+        const anomalyCount =
+            (summary.packet_loss || 0) +
+            (summary.duplicates || 0) +
+            (summary.reordered || 0) +
+            (summary.integrity_errors || 0);
+
+
+        normal =
+            Math.max(
+                0,
+                total - anomalyCount
+            );
+
+    }
 
 
     const anomalies =
         total - normal;
 
 
-    document.getElementById(
-        "totalPackets"
-    ).textContent = total;
+    const totalElement =
+        document.getElementById(
+            "totalPackets"
+        );
 
 
-    document.getElementById(
-        "normalPackets"
-    ).textContent = normal;
+    const normalElement =
+        document.getElementById(
+            "normalPackets"
+        );
 
 
-    document.getElementById(
-        "anomalyPackets"
-    ).textContent = anomalies;
+    const anomalyElement =
+        document.getElementById(
+            "anomalyPackets"
+        );
 
 
-    document.getElementById(
-        "score"
-    ).textContent = score;
+    const scoreElement =
+        document.getElementById(
+            "score"
+        );
+
+
+    if (totalElement) {
+
+        totalElement.textContent =
+            total;
+
+    }
+
+
+    if (normalElement) {
+
+        normalElement.textContent =
+            normal;
+
+    }
+
+
+    if (anomalyElement) {
+
+        anomalyElement.textContent =
+            anomalies;
+
+    }
+
+
+    if (scoreElement) {
+
+        scoreElement.textContent =
+            score;
+
+    }
 
 }
 
