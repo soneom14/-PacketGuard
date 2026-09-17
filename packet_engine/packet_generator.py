@@ -165,29 +165,27 @@ def inject_reordering(packets):
     if len(packets) < 6:
         return
 
-    first_index = len(packets) // 3
+    # Choose two different packets that are
+    # unlikely to be the duplicate packet.
+    first_index = 2
+    second_index = 4
 
-    second_index = first_index + 1
+    # Store their sequence numbers
+    first_sequence = packets[first_index]["sequence"]
+    second_sequence = packets[second_index]["sequence"]
 
+    # Swap the sequence numbers
+    packets[first_index]["sequence"] = second_sequence
+    packets[second_index]["sequence"] = first_sequence
+
+    # Mark both packets
     packets[first_index]["status"] = "REORDERED"
     packets[second_index]["status"] = "REORDERED"
-
-    # Swap sequence numbers
-    first_sequence = packets[first_index]["sequence"]
-
-    packets[first_index]["sequence"] = (
-        packets[second_index]["sequence"]
-    )
-
-    packets[second_index]["sequence"] = (
-        first_sequence
-    )
 
     print(
         "[ANOMALY] Packet reordering detected"
     )
-
-
+    
 # ============================================================
 # PACKET TAMPERING
 # ============================================================
