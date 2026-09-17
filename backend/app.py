@@ -26,7 +26,7 @@ FRONTEND_DIR = os.path.join(
 # PYTHON IMPORT PATH
 # ============================================================
 
-# Add the project root to Python's module search path.
+# Add project root to Python module search path
 if BASE_DIR not in sys.path:
     sys.path.insert(
         0,
@@ -35,7 +35,7 @@ if BASE_DIR not in sys.path:
 
 
 # ============================================================
-# PACKET ENGINE IMPORT
+# PACKET ENGINE IMPORTS
 # ============================================================
 
 from packet_engine.packet_generator import (
@@ -44,6 +44,10 @@ from packet_engine.packet_generator import (
 
 from packet_engine.packet_analyzer import (
     analyze_packets
+)
+
+from packet_engine.threat_detector import (
+    detect_threats
 )
 
 
@@ -95,9 +99,17 @@ def frontend_files(filename):
 def health():
 
     return jsonify({
+
         "status": "online",
+
         "service": "PacketGuard API",
-        "engine": "Python Packet Engine"
+
+        "engine": "Python Packet Engine",
+
+        "analyzer": "ONLINE",
+
+        "threat_detector": "ONLINE"
+
     })
 
 
@@ -111,56 +123,86 @@ def health():
 )
 def simulate_packets():
 
-    # Get JSON sent by the frontend
+    # --------------------------------------------------------
+    # Get JSON sent by frontend
+    # --------------------------------------------------------
+
     data = request.get_json(
         silent=True
     ) or {}
 
+
+    # --------------------------------------------------------
     # Get requested packet count
+    # --------------------------------------------------------
+
     count = data.get(
         "count",
         20
     )
 
+
+    # --------------------------------------------------------
     # Make sure count is an integer
+    # --------------------------------------------------------
+
     try:
+
         count = int(count)
 
     except (
         TypeError,
         ValueError
     ):
+
         count = 20
 
+
+    # --------------------------------------------------------
     # Security / resource limit
     #
     # Minimum = 1 packet
     # Maximum = 100 packets
+    # --------------------------------------------------------
 
     count = max(
         1,
         min(count, 100)
     )
 
-    # --------------------------------------------------------
-    # Generate simulated packets
-    # --------------------------------------------------------
+
+    # ========================================================
+    # 1. GENERATE SIMULATED PACKETS
+    # ========================================================
 
     packets = generate_packet_stream(
-        count
+        count,
+        "mixed"
     )
 
-    # --------------------------------------------------------
-    # Analyse generated packets
-    # --------------------------------------------------------
+
+    # ========================================================
+    # 2. ANALYSE PACKETS
+    # ========================================================
 
     analysis = analyze_packets(
         packets
     )
 
-    # --------------------------------------------------------
-    # Send packets + analysis back to browser
-    # --------------------------------------------------------
+
+    # ========================================================
+    # 3. DETECT POTENTIAL THREATS
+    # ========================================================
+
+    threats = detect_threats(
+        packets,
+        analysis
+    )
+
+
+    # ========================================================
+    # 4. RETURN COMPLETE ANALYSIS
+    # ========================================================
 
     return jsonify({
 
@@ -170,7 +212,9 @@ def simulate_packets():
 
         "packets": packets,
 
-        "analysis": analysis
+        "analysis": analysis,
+
+        "threats": threats
 
     })
 
@@ -189,6 +233,22 @@ def page_not_found(error):
         "error": "Resource not found"
 
     }), 404
+
+
+# ============================================================
+# SERVER ERROR HANDLER - INTERNAL ERROR
+# ============================================================
+
+@app.errorhandler(500)
+def internal_server_error(error):
+
+    return jsonify({
+
+        "success": False,
+
+        "error": "Internal server error"
+
+    }), 500
 
 
 # ============================================================
@@ -228,12 +288,19 @@ if __name__ == "__main__":
     )
 
     print(
-        "Packet Analyzer: ONLINE"
+        "Packet Analyzer:      ONLINE"
     )
+
+    print(
+        "Threat Detector:      ONLINE"
+    )
+
+    print()
 
     print("=" * 60)
 
     print()
+
 
     app.run(
         host="127.0.0.1",
