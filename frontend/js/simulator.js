@@ -611,18 +611,20 @@ function displayAnalysis() {
 // DISPLAY THREAT DETECTION
 // =========================================
 
+// =========================================
+// DISPLAY THREAT DETECTION
+// =========================================
+
 function displayThreats() {
 
     if (!threatResult) {
         return;
     }
 
-
     let threatPanel =
         document.getElementById(
             "threatDetectionPanel"
         );
-
 
     // Create panel if it doesn't exist
     if (!threatPanel) {
@@ -630,40 +632,13 @@ function displayThreats() {
         threatPanel =
             document.createElement("div");
 
-
         threatPanel.id =
             "threatDetectionPanel";
-
-
-        threatPanel.style.margin =
-            "20px 0";
-
-
-        threatPanel.style.padding =
-            "20px";
-
-
-        threatPanel.style.border =
-            "1px solid rgba(255, 80, 80, 0.4)";
-
-
-        threatPanel.style.borderRadius =
-            "12px";
-
-
-        threatPanel.style.background =
-            "rgba(0, 0, 0, 0.25)";
-
-
-        threatPanel.style.color =
-            "#ffffff";
-
 
         const analysisPanel =
             document.getElementById(
                 "packetAnalysisPanel"
             );
-
 
         if (analysisPanel) {
 
@@ -672,9 +647,7 @@ function displayThreats() {
                 analysisPanel.nextSibling
             );
 
-        }
-
-        else {
+        } else {
 
             document.body.prepend(
                 threatPanel
@@ -684,59 +657,70 @@ function displayThreats() {
 
     }
 
-
     const threats =
         threatResult.threats || [];
 
+    const riskScore =
+        Number(threatResult.risk_score || 0);
 
-    let threatHTML =
-        "";
+    const riskLevel =
+        threatResult.risk_level || "LOW";
 
+    let riskColor = "#00ff88";
+
+    if (riskLevel === "MEDIUM") {
+        riskColor = "#ffaa00";
+    }
+
+    if (riskLevel === "HIGH") {
+        riskColor = "#ff4444";
+    }
+
+    let threatHTML = "";
 
     if (threats.length === 0) {
 
         threatHTML = `
-
-            <p>
+            <div class="threat-empty">
                 ✓ No potential threats detected.
-            </p>
-
+            </div>
         `;
 
-    }
-
-    else {
+    } else {
 
         threatHTML =
             threats.map(
                 threat => `
 
                     <div
-                        style="
-                            margin-top:10px;
-                            padding:10px;
-                            border-radius:8px;
-                            background:rgba(255,255,255,0.06);
-                        "
+                        class="threat-item"
                     >
 
-                        <strong>
-                            ${threat.type}
-                        </strong>
+                        <div class="threat-title">
+                            🚨 ${threat.type}
+                        </div>
 
-                        <br>
+                        <div class="threat-details">
 
-                        Severity:
-                        ${threat.severity}
+                            <span>
+                                Severity:
+                                <strong>
+                                    ${threat.severity}
+                                </strong>
+                            </span>
 
-                        <br>
+                            <span>
+                                Risk Score:
+                                <strong>
+                                    ${threat.risk_score}
+                                </strong>
+                            </span>
 
-                        Risk Score:
-                        ${threat.risk_score}
+                        </div>
 
-                        <br>
-
-                        ${threat.description}
+                        <div class="threat-description">
+                            ${threat.description}
+                        </div>
 
                     </div>
 
@@ -745,40 +729,116 @@ function displayThreats() {
 
     }
 
-
     threatPanel.innerHTML = `
 
-        <h2>
-            🚨 Threat Detection
-        </h2>
+        <div class="threat-header">
 
-        <p>
-            <strong>Status:</strong>
-            ${threatResult.status}
-        </p>
+            <div>
 
-        <p>
-            <strong>Risk Level:</strong>
-            ${threatResult.risk_level}
-        </p>
+                <div class="threat-label">
+                    SECURITY ASSESSMENT
+                </div>
 
-        <p>
-            <strong>Risk Score:</strong>
-            ${threatResult.risk_score}
-        </p>
+                <h2>
+                    🚨 Threat Detection
+                </h2>
 
-        <p>
-            <strong>Threats Detected:</strong>
-            ${threatResult.threat_count}
-        </p>
+            </div>
+
+            <div
+                class="risk-badge"
+                style="
+                    border-color:${riskColor};
+                    color:${riskColor};
+                "
+            >
+                ${riskLevel} RISK
+            </div>
+
+        </div>
+
+
+        <div class="risk-section">
+
+            <div class="risk-score">
+
+                <div
+                    class="risk-number"
+                    style="color:${riskColor};"
+                >
+                    ${riskScore}
+                </div>
+
+                <div class="risk-out-of">
+                    / 100
+                </div>
+
+            </div>
+
+            <div class="risk-text">
+                CURRENT RISK SCORE
+            </div>
+
+
+            <div class="risk-bar">
+
+                <div
+                    class="risk-fill"
+                    style="
+                        width:${Math.min(
+        riskScore,
+        100
+    )}%;
+                        background:${riskColor};
+                        box-shadow:
+                            0 0 12px ${riskColor};
+                    "
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <div class="threat-summary">
+
+            <div>
+                <span>Status</span>
+                <strong>
+                    ${threatResult.status}
+                </strong>
+            </div>
+
+            <div>
+                <span>Risk Level</span>
+                <strong style="color:${riskColor};">
+                    ${riskLevel}
+                </strong>
+            </div>
+
+            <div>
+                <span>Threats Detected</span>
+                <strong>
+                    ${threatResult.threat_count}
+                </strong>
+            </div>
+
+        </div>
+
 
         <hr>
+
 
         <h3>
             Detected Threats
         </h3>
 
-        ${threatHTML}
+
+        <div class="threat-list">
+
+            ${threatHTML}
+
+        </div>
 
     `;
 
