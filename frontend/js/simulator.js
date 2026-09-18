@@ -1,6 +1,7 @@
 let packets = [];
 let score = 0;
 let analysisResult = null;
+let threatResult = null;
 
 
 // =========================================
@@ -12,6 +13,7 @@ async function generatePackets() {
     packets = [];
     score = 0;
     analysisResult = null;
+    threatResult = null;
 
     const packetStatus =
         document.getElementById("packetStatus");
@@ -62,26 +64,56 @@ async function generatePackets() {
         }
 
 
-        // Store generated packets
+        // =========================================
+        // STORE GENERATED PACKETS
+        // =========================================
+
         packets =
             data.packets || [];
 
 
-        // Store backend analysis
+        // =========================================
+        // STORE BACKEND ANALYSIS
+        // =========================================
+
         analysisResult =
             data.analysis || null;
 
 
-        // Display packets
+        // =========================================
+        // STORE THREAT DETECTION RESULT
+        // =========================================
+
+        threatResult =
+            data.threats || null;
+
+
+        // =========================================
+        // DISPLAY PACKETS
+        // =========================================
+
         displayPackets();
 
 
-        // Update statistics
+        // =========================================
+        // UPDATE STATISTICS
+        // =========================================
+
         updateStats();
 
 
-        // Display analysis
+        // =========================================
+        // DISPLAY PACKET ANALYSIS
+        // =========================================
+
         displayAnalysis();
+
+
+        // =========================================
+        // DISPLAY THREAT DETECTION
+        // =========================================
+
+        displayThreats();
 
 
         if (packetStatus) {
@@ -400,6 +432,7 @@ function displayAnalysis() {
         analysisPanel =
             document.createElement("div");
 
+
         analysisPanel.id =
             "packetAnalysisPanel";
 
@@ -407,17 +440,22 @@ function displayAnalysis() {
         analysisPanel.style.margin =
             "20px 0";
 
+
         analysisPanel.style.padding =
             "20px";
+
 
         analysisPanel.style.border =
             "1px solid rgba(0, 191, 255, 0.35)";
 
+
         analysisPanel.style.borderRadius =
             "12px";
 
+
         analysisPanel.style.background =
             "rgba(0, 0, 0, 0.25)";
+
 
         analysisPanel.style.color =
             "#ffffff";
@@ -469,9 +507,11 @@ function displayAnalysis() {
     if (anomalies.length === 0) {
 
         anomalyHTML = `
+
             <p>
                 ✓ No packet anomalies detected.
             </p>
+
         `;
 
     }
@@ -568,6 +608,184 @@ function displayAnalysis() {
 
 
 // =========================================
+// DISPLAY THREAT DETECTION
+// =========================================
+
+function displayThreats() {
+
+    if (!threatResult) {
+        return;
+    }
+
+
+    let threatPanel =
+        document.getElementById(
+            "threatDetectionPanel"
+        );
+
+
+    // Create panel if it doesn't exist
+    if (!threatPanel) {
+
+        threatPanel =
+            document.createElement("div");
+
+
+        threatPanel.id =
+            "threatDetectionPanel";
+
+
+        threatPanel.style.margin =
+            "20px 0";
+
+
+        threatPanel.style.padding =
+            "20px";
+
+
+        threatPanel.style.border =
+            "1px solid rgba(255, 80, 80, 0.4)";
+
+
+        threatPanel.style.borderRadius =
+            "12px";
+
+
+        threatPanel.style.background =
+            "rgba(0, 0, 0, 0.25)";
+
+
+        threatPanel.style.color =
+            "#ffffff";
+
+
+        const analysisPanel =
+            document.getElementById(
+                "packetAnalysisPanel"
+            );
+
+
+        if (analysisPanel) {
+
+            analysisPanel.parentElement.insertBefore(
+                threatPanel,
+                analysisPanel.nextSibling
+            );
+
+        }
+
+        else {
+
+            document.body.prepend(
+                threatPanel
+            );
+
+        }
+
+    }
+
+
+    const threats =
+        threatResult.threats || [];
+
+
+    let threatHTML =
+        "";
+
+
+    if (threats.length === 0) {
+
+        threatHTML = `
+
+            <p>
+                ✓ No potential threats detected.
+            </p>
+
+        `;
+
+    }
+
+    else {
+
+        threatHTML =
+            threats.map(
+                threat => `
+
+                    <div
+                        style="
+                            margin-top:10px;
+                            padding:10px;
+                            border-radius:8px;
+                            background:rgba(255,255,255,0.06);
+                        "
+                    >
+
+                        <strong>
+                            ${threat.type}
+                        </strong>
+
+                        <br>
+
+                        Severity:
+                        ${threat.severity}
+
+                        <br>
+
+                        Risk Score:
+                        ${threat.risk_score}
+
+                        <br>
+
+                        ${threat.description}
+
+                    </div>
+
+                `
+            ).join("");
+
+    }
+
+
+    threatPanel.innerHTML = `
+
+        <h2>
+            🚨 Threat Detection
+        </h2>
+
+        <p>
+            <strong>Status:</strong>
+            ${threatResult.status}
+        </p>
+
+        <p>
+            <strong>Risk Level:</strong>
+            ${threatResult.risk_level}
+        </p>
+
+        <p>
+            <strong>Risk Score:</strong>
+            ${threatResult.risk_score}
+        </p>
+
+        <p>
+            <strong>Threats Detected:</strong>
+            ${threatResult.threat_count}
+        </p>
+
+        <hr>
+
+        <h3>
+            Detected Threats
+        </h3>
+
+        ${threatHTML}
+
+    `;
+
+}
+
+
+// =========================================
 // UPDATE STATISTICS
 // =========================================
 
@@ -577,7 +795,8 @@ function updateStats() {
         packets.length;
 
 
-    let normal = total;
+    let normal =
+        total;
 
 
     // Use backend analysis when available
