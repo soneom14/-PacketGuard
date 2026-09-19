@@ -19,7 +19,9 @@
     <div class="dashboard">
 
 
-        <!-- HEADER -->
+        <!-- =========================================
+             HEADER
+             ========================================= -->
 
         <header class="dashboard-header">
 
@@ -61,7 +63,9 @@
         </header>
 
 
-        <!-- MISSION -->
+        <!-- =========================================
+             MISSION HEADER
+             ========================================= -->
 
         <section class="welcome-section">
 
@@ -96,10 +100,14 @@
         </section>
 
 
-        <!-- STATISTICS -->
+        <!-- =========================================
+             STATISTICS
+             ========================================= -->
 
         <section class="stats-grid">
 
+
+            <!-- TOTAL PACKETS -->
 
             <div class="stat-card">
 
@@ -128,6 +136,8 @@
             </div>
 
 
+            <!-- NORMAL -->
+
             <div class="stat-card">
 
                 <div class="stat-top">
@@ -154,6 +164,8 @@
 
             </div>
 
+
+            <!-- ANOMALIES -->
 
             <div class="stat-card">
 
@@ -182,6 +194,8 @@
             </div>
 
 
+            <!-- SCORE -->
+
             <div class="stat-card">
 
                 <div class="stat-top">
@@ -207,6 +221,8 @@
                 </p>
 
             </div>
+
+
             <!-- LEVEL -->
 
             <div class="stat-card">
@@ -237,10 +253,13 @@
 
             </div>
 
+
         </section>
 
 
-        <!-- PACKET STREAM -->
+        <!-- =========================================
+             PACKET STREAM
+             ========================================= -->
 
         <section class="packet-panel">
 
@@ -314,6 +333,7 @@
 
         <section class="mission-panel" id="missionPanel">
 
+
             <div class="mission-header">
 
                 <div>
@@ -327,6 +347,7 @@
                     </h2>
 
                 </div>
+
 
                 <span class="mission-xp">
                     +50 XP
@@ -404,10 +425,121 @@
         </section>
 
 
+        <!-- =========================================
+             MISSION 02 - PACKET LOSS INVESTIGATION
+             ========================================= -->
+
+        <section class="mission-panel mission-locked" id="mission02Panel">
+
+
+            <div class="mission-header">
+
+                <div>
+
+                    <p class="section-label">
+                        MISSION 02
+                    </p>
+
+                    <h2>
+                        📉 Packet Loss Investigation
+                    </h2>
+
+                </div>
+
+
+                <span class="mission-xp">
+                    +50 XP
+                </span>
+
+            </div>
+
+
+            <p class="mission-question">
+
+                Investigate a network stream where packets
+                may be missing from the expected sequence.
+
+                Identify the network problem and determine
+                what happened to the packet stream.
+
+            </p>
+
+
+            <!-- START MISSION 02 -->
+
+            <button class="mission-start-button" id="mission02StartButton" onclick="startMission02()">
+
+                🔍 START MISSION 02
+
+            </button>
+
+
+            <!-- MISSION 02 STATUS -->
+
+            <div id="mission02Status" class="mission-feedback">
+
+                Complete Mission 01 to unlock this mission.
+
+            </div>
+
+
+            <!-- MISSION 02 QUESTION -->
+
+            <div id="mission02Question" class="mission-question" style="display:none;">
+
+                What network problem was detected?
+
+            </div>
+
+
+            <!-- MISSION 02 OPTIONS -->
+
+            <div id="mission02Options" class="mission-options" style="display:none;">
+
+
+                <button class="mission-option" onclick="answerMission02('NORMAL')">
+
+                    🟢 Normal Traffic
+
+                </button>
+
+
+                <button class="mission-option" onclick="answerMission02('PACKET_LOSS')">
+
+                    📉 Packet Loss
+
+                </button>
+
+
+                <button class="mission-option" onclick="answerMission02('DUPLICATE')">
+
+                    🔁 Duplicate Packets
+
+                </button>
+
+
+                <button class="mission-option" onclick="answerMission02('TAMPERING')">
+
+                    🔐 Packet Tampering
+
+                </button>
+
+
+            </div>
+
+
+        </section>
+
+
     </div>
 
 
+    <!-- =========================================
+         JAVASCRIPT
+         ========================================= -->
+
     <script src="js/simulator.js"></script>
+
 
 </body>
 

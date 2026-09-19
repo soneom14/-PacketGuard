@@ -1348,11 +1348,9 @@ footer {
     border-radius: 14px;
 
     background:
-        linear-gradient(
-            145deg,
+        linear-gradient(145deg,
             rgba(15, 30, 45, 0.95),
-            rgba(7, 15, 25, 0.95)
-        );
+            rgba(7, 15, 25, 0.95));
 
 }
 
@@ -1404,7 +1402,7 @@ footer {
 
     line-height: 1.6;
 
-    color: rgba(255,255,255,0.75);
+    color: rgba(255, 255, 255, 0.75);
 
 }
 
@@ -1427,11 +1425,11 @@ footer {
 
     padding: 16px;
 
-    border: 1px solid rgba(255,255,255,0.12);
+    border: 1px solid rgba(255, 255, 255, 0.12);
 
     border-radius: 10px;
 
-    background: rgba(255,255,255,0.04);
+    background: rgba(255, 255, 255, 0.04);
 
     color: #ffffff;
 
@@ -1456,7 +1454,7 @@ footer {
     border-color: #00bfff;
 
     background:
-        rgba(0,191,255,0.08);
+        rgba(0, 191, 255, 0.08);
 
 }
 
@@ -1477,9 +1475,9 @@ footer {
     border-radius: 9px;
 
     background:
-        rgba(255,255,255,0.04);
+        rgba(255, 255, 255, 0.04);
 
-    color: rgba(255,255,255,0.65);
+    color: rgba(255, 255, 255, 0.65);
 
     font-size: 12px;
 
@@ -1502,4 +1500,62 @@ footer {
 
     }
 
+}
+
+/* =========================================
+   MISSION 02
+   ========================================= */
+
+.mission-locked {
+    opacity: 0.85;
+}
+
+
+.mission-start-button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 16px;
+
+    background: #00aee8;
+    color: white;
+
+    border: none;
+    border-radius: 10px;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    letter-spacing: 1px;
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.mission-start-button:hover {
+    background: #008fc0;
+    transform: translateY(-1px);
+}
+
+
+.mission-start-button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+#mission02Options {
+    margin-top: 20px;
+}
+
+
+#mission02Options button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+
+#mission02Status strong {
+    color: inherit;
 }

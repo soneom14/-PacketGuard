@@ -1065,6 +1065,13 @@ function answerMission(answer) {
         feedback.dataset.completed =
             "true";
 
+        localStorage.setItem(
+            "packetguardMission01",
+            "completed"
+        );
+
+        unlockMission02();
+
 
         // Award mission points
         score += 50;
@@ -1092,10 +1099,13 @@ function answerMission(answer) {
 
 
         // Disable all mission buttons
+        const mission01Panel =
+            document.getElementById("missionPanel");
+
         const buttons =
-            document.querySelectorAll(
-                ".mission-option"
-            );
+            mission01Panel
+                ? mission01Panel.querySelectorAll(".mission-option")
+                : [];
 
 
         buttons.forEach(button => {
@@ -1271,6 +1281,432 @@ document.addEventListener(
     function () {
 
         updateLevel();
+
+    }
+);
+
+// =========================================
+// MISSION 02 - PACKET LOSS INVESTIGATION
+// =========================================
+
+let mission02Result = null;
+let mission02Completed = false;
+
+
+// =========================================
+// UNLOCK MISSION 02
+// =========================================
+
+function unlockMission02() {
+
+    const panel =
+        document.getElementById("mission02Panel");
+
+    const status =
+        document.getElementById("mission02Status");
+
+    const startButton =
+        document.getElementById("mission02StartButton");
+
+    if (!panel || !status || !startButton) {
+        return;
+    }
+
+    panel.classList.remove("mission-locked");
+
+    status.textContent =
+        "Mission unlocked. Start the investigation.";
+
+    status.style.color = "#00c8ff";
+
+    startButton.disabled = false;
+}
+
+
+// =========================================
+// START MISSION 02
+// =========================================
+
+async function startMission02() {
+
+    const status =
+        document.getElementById("mission02Status");
+
+    const question =
+        document.getElementById("mission02Question");
+
+    const options =
+        document.getElementById("mission02Options");
+
+    const startButton =
+        document.getElementById("mission02StartButton");
+
+
+    if (status) {
+        status.textContent =
+            "Generating packet-loss investigation...";
+    }
+
+
+    if (startButton) {
+        startButton.disabled = true;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/simulate",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        count: 10,
+                        scenario: "loss"
+                    })
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Server returned " +
+                response.status
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            throw new Error(
+                data.error ||
+                "Mission 02 simulation failed."
+            );
+
+        }
+
+
+        mission02Result = data;
+
+
+        // Show the question
+        if (question) {
+            question.style.display = "block";
+        }
+
+
+        // Show answer options
+        if (options) {
+            options.style.display = "grid";
+        }
+
+
+        if (status) {
+
+            const loss =
+                data.analysis &&
+                    data.analysis.summary
+                    ? data.analysis.summary.packet_loss || 0
+                    : 0;
+
+            status.innerHTML = `
+                🔎 Investigation started.<br>
+                <strong>${data.count}</strong>
+                packets received.
+                <br>
+                Analyse the sequence and identify
+                what happened.
+            `;
+
+        }
+
+
+    }
+    catch (error) {
+
+        console.error(
+            "Mission 02 error:",
+            error
+        );
+
+
+        if (status) {
+
+            status.textContent =
+                "Unable to start Mission 02. Make sure the Flask backend is running.";
+
+        }
+
+
+        if (startButton) {
+            startButton.disabled = false;
+        }
+
+    }
+
+}
+
+
+// =========================================
+// MISSION 02 - ANSWER HANDLER
+// =========================================
+
+function answerMission02(answer) {
+
+    if (!mission02Result) {
+
+        alert(
+            "Start Mission 02 first."
+        );
+
+        return;
+    }
+
+
+    const status =
+        document.getElementById(
+            "mission02Status"
+        );
+
+
+    const options =
+        document.getElementById(
+            "mission02Options"
+        );
+
+
+    const analysis =
+        mission02Result.analysis || {};
+
+
+    const summary =
+        analysis.summary || {};
+
+
+    const packetLoss =
+        summary.packet_loss || 0;
+
+
+    // =========================================
+    // CORRECT ANSWER
+    // =========================================
+
+    if (
+        answer === "PACKET_LOSS" &&
+        packetLoss > 0
+    ) {
+
+        if (mission02Completed) {
+            return;
+        }
+
+
+        mission02Completed = true;
+
+
+        // Award 50 XP
+        score += 50;
+
+
+        localStorage.setItem(
+            "packetguardXP",
+            score
+        );
+
+
+        localStorage.setItem(
+            "packetguardMission02",
+            "completed"
+        );
+
+
+        updateLevel();
+
+
+        const scoreElement =
+            document.getElementById(
+                "score"
+            );
+
+
+        if (scoreElement) {
+
+            scoreElement.textContent =
+                score;
+
+        }
+
+
+        if (options) {
+
+            const buttons =
+                options.querySelectorAll(
+                    "button"
+                );
+
+
+            buttons.forEach(button => {
+
+                button.disabled = true;
+
+            });
+
+        }
+
+
+        if (status) {
+
+            status.innerHTML = `
+
+                <strong>
+                    ✅ MISSION 02 COMPLETE
+                </strong>
+
+                <br><br>
+
+                Correct identification:
+                <strong>Packet Loss</strong>
+
+                <br>
+
+                Missing sequence numbers were detected
+                in the network stream.
+
+                <br><br>
+
+                🎯 +50 XP awarded.
+
+                <br><br>
+
+                🔓 Mission 03 unlocked.
+
+            `;
+
+
+            status.style.border =
+                "1px solid rgba(0, 255, 136, 0.4)";
+
+
+            status.style.background =
+                "rgba(0, 255, 136, 0.08)";
+
+
+            status.style.color =
+                "#00ff88";
+
+        }
+
+
+        // Prepare Mission 03 unlock state
+        localStorage.setItem(
+            "packetguardMission03Unlocked",
+            "true"
+        );
+
+
+    }
+
+    // =========================================
+    // INCORRECT ANSWER
+    // =========================================
+
+    else {
+
+        if (status) {
+
+            status.innerHTML = `
+
+                <strong>
+                    ❌ INCORRECT
+                </strong>
+
+                <br><br>
+
+                Look at the packet sequence numbers.
+
+                <br>
+
+                Some expected sequence numbers
+                are missing from the stream.
+
+                <br>
+
+                Try again.
+
+            `;
+
+
+            status.style.border =
+                "1px solid rgba(255, 70, 70, 0.4)";
+
+
+            status.style.background =
+                "rgba(255, 70, 70, 0.08)";
+
+
+            status.style.color =
+                "#ff6666";
+
+        }
+
+    }
+
+}
+
+
+// =========================================
+// CHECK MISSION 02 UNLOCK STATUS
+// =========================================
+
+function checkMission02Unlock() {
+
+    const mission01Completed =
+        localStorage.getItem(
+            "packetguardMission01"
+        ) === "completed";
+
+
+    /*
+     * Also unlock if the player already has
+     * 50+ XP from the existing Mission 01.
+     *
+     * This makes your current progress safer
+     * if Mission 01 was completed before we added
+     * the dedicated mission flag.
+     */
+
+    if (
+        mission01Completed ||
+        score >= 50
+    ) {
+
+        unlockMission02();
+
+    }
+
+}
+
+
+// =========================================
+// INITIALIZE MISSION SYSTEM
+// =========================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        checkMission02Unlock();
 
     }
 );
