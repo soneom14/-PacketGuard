@@ -28,6 +28,7 @@ FRONTEND_DIR = os.path.join(
 
 # Add project root to Python module search path
 if BASE_DIR not in sys.path:
+
     sys.path.insert(
         0,
         BASE_DIR
@@ -171,13 +172,53 @@ def simulate_packets():
     )
 
 
+    # --------------------------------------------------------
+    # Get requested simulation scenario
+    # --------------------------------------------------------
+
+    scenario = data.get(
+        "scenario",
+        "mixed"
+    )
+
+
+    # --------------------------------------------------------
+    # Allowed packet scenarios
+    # --------------------------------------------------------
+
+    allowed_scenarios = {
+
+        "normal",
+
+        "loss",
+
+        "duplicate",
+
+        "reordered",
+
+        "tampered",
+
+        "mixed"
+
+    }
+
+
+    # --------------------------------------------------------
+    # Validate scenario
+    # --------------------------------------------------------
+
+    if scenario not in allowed_scenarios:
+
+        scenario = "mixed"
+
+
     # ========================================================
     # 1. GENERATE SIMULATED PACKETS
     # ========================================================
 
     packets = generate_packet_stream(
         count,
-        "mixed"
+        scenario
     )
 
 
@@ -209,6 +250,8 @@ def simulate_packets():
         "success": True,
 
         "count": len(packets),
+
+        "scenario": scenario,
 
         "packets": packets,
 

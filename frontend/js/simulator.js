@@ -1,6 +1,14 @@
 let packets = [];
-let score = 0;
+
+let score =
+    Number(
+        localStorage.getItem(
+            "packetguardXP"
+        )
+    ) || 0;
+
 let analysisResult = null;
+
 let threatResult = null;
 
 
@@ -11,7 +19,6 @@ let threatResult = null;
 async function generatePackets() {
 
     packets = [];
-    score = 0;
     analysisResult = null;
     threatResult = null;
 
@@ -954,3 +961,316 @@ function goDashboard() {
         "dashboard.html";
 
 }
+
+// =========================================
+// MISSION 01 - ANSWER HANDLER
+// =========================================
+
+function answerMission(answer) {
+
+    // Make sure traffic has been generated
+    if (!threatResult) {
+
+        alert(
+            "Generate traffic first before attempting the mission."
+        );
+
+        return;
+    }
+
+
+    const feedback =
+        document.getElementById(
+            "missionFeedback"
+        );
+
+
+    if (!feedback) {
+        return;
+    }
+
+
+    // =========================================
+    // DETERMINE CORRECT ANSWER
+    // =========================================
+
+    let correctAnswer = "NORMAL";
+
+
+    const threats =
+        threatResult.threats || [];
+
+
+    const hasTampering =
+        threats.some(
+            threat =>
+                threat.type ===
+                "POSSIBLE_TAMPERING"
+        );
+
+
+    const hasReplay =
+        threats.some(
+            threat =>
+                threat.type ===
+                "POSSIBLE_REPLAY_ACTIVITY"
+        );
+
+
+    const packetLoss =
+        analysisResult &&
+            analysisResult.summary
+            ? analysisResult.summary.packet_loss || 0
+            : 0;
+
+
+    // Tampering has highest priority
+    if (hasTampering) {
+
+        correctAnswer =
+            "TAMPERING";
+
+    }
+
+    else if (hasReplay) {
+
+        correctAnswer =
+            "REPLAY";
+
+    }
+
+    else if (packetLoss > 0) {
+
+        correctAnswer =
+            "PACKET_LOSS";
+
+    }
+
+
+    // =========================================
+    // CHECK ANSWER
+    // =========================================
+
+    if (answer === correctAnswer) {
+
+        // Prevent repeatedly earning points
+        if (
+            feedback.dataset.completed ===
+            "true"
+        ) {
+            return;
+        }
+
+
+        feedback.dataset.completed =
+            "true";
+
+
+        // Award mission points
+        score += 50;
+
+        localStorage.setItem(
+            "packetguardXP",
+            score
+        );
+
+        updateLevel();
+
+
+        const scoreElement =
+            document.getElementById(
+                "score"
+            );
+
+
+        if (scoreElement) {
+
+            scoreElement.textContent =
+                score;
+
+        }
+
+
+        // Disable all mission buttons
+        const buttons =
+            document.querySelectorAll(
+                ".mission-option"
+            );
+
+
+        buttons.forEach(button => {
+
+            button.disabled =
+                true;
+
+            button.style.cursor =
+                "default";
+
+        });
+
+
+        feedback.innerHTML = `
+
+            <strong>
+                ✅ MISSION COMPLETE
+            </strong>
+
+            <br>
+
+            Correct identification:
+            <strong>
+                ${answer === "TAMPERING"
+                ? "Possible Tampering"
+                : answer === "REPLAY"
+                    ? "Replay Activity"
+                    : answer === "PACKET_LOSS"
+                        ? "Packet Loss"
+                        : "Normal Network Behaviour"}
+            </strong>
+
+            <br>
+
+            🎯 +50 XP awarded.
+
+        `;
+
+
+        feedback.style.border =
+            "1px solid rgba(0, 255, 136, 0.4)";
+
+
+        feedback.style.background =
+            "rgba(0, 255, 136, 0.08)";
+
+
+        feedback.style.color =
+            "#00ff88";
+
+    }
+
+    else {
+
+        feedback.innerHTML = `
+
+            <strong>
+                ❌ INCORRECT
+            </strong>
+
+            <br>
+
+            Analyse the packet evidence
+            and threat detection results
+            and try again.
+
+        `;
+
+
+        feedback.style.border =
+            "1px solid rgba(255, 70, 70, 0.4)";
+
+
+        feedback.style.background =
+            "rgba(255, 70, 70, 0.08)";
+
+
+        feedback.style.color =
+            "#ff6666";
+
+    }
+
+}
+
+// =========================================
+// PACKETGUARD XP & LEVEL SYSTEM
+// =========================================
+
+function updateLevel() {
+
+    let level = 1;
+    let title = "Recruit";
+
+
+    if (score >= 350) {
+
+        level = 5;
+        title = "Security Specialist";
+
+    }
+
+    else if (score >= 200) {
+
+        level = 4;
+        title = "Threat Hunter";
+
+    }
+
+    else if (score >= 100) {
+
+        level = 3;
+        title = "Defender";
+
+    }
+
+    else if (score >= 50) {
+
+        level = 2;
+        title = "Analyst";
+
+    }
+
+
+    const levelElement =
+        document.getElementById(
+            "playerLevel"
+        );
+
+
+    const titleElement =
+        document.getElementById(
+            "levelTitle"
+        );
+
+
+    const scoreElement =
+        document.getElementById(
+            "score"
+        );
+
+
+    if (levelElement) {
+
+        levelElement.textContent =
+            level;
+
+    }
+
+
+    if (titleElement) {
+
+        titleElement.textContent =
+            title;
+
+    }
+
+
+    if (scoreElement) {
+
+        scoreElement.textContent =
+            score;
+
+    }
+
+}
+
+// =========================================
+// INITIALIZE PLAYER PROGRESS
+// =========================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        updateLevel();
+
+    }
+);

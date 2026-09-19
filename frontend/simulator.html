@@ -207,6 +207,35 @@
                 </p>
 
             </div>
+            <!-- LEVEL -->
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span class="stat-title">
+                        LEVEL
+                    </span>
+
+                    <span class="stat-icon">
+                        🏆
+                    </span>
+
+                </div>
+
+                <div class="stat-value" id="playerLevel">
+
+                    1
+
+                </div>
+
+                <p class="stat-footer" id="levelTitle">
+
+                    Recruit
+
+                </p>
+
+            </div>
 
         </section>
 
@@ -275,6 +304,102 @@
                 </table>
 
             </div>
+
+        </section>
+
+
+        <!-- =========================================
+             MISSION 01 - THREAT IDENTIFICATION
+             ========================================= -->
+
+        <section class="mission-panel" id="missionPanel">
+
+            <div class="mission-header">
+
+                <div>
+
+                    <p class="section-label">
+                        MISSION 01
+                    </p>
+
+                    <h2>
+                        🎯 Identify the Security Issue
+                    </h2>
+
+                </div>
+
+                <span class="mission-xp">
+                    +50 XP
+                </span>
+
+            </div>
+
+
+            <p class="mission-question">
+
+                Based on the packet analysis and threat
+                detection results, what is the primary
+                security issue detected?
+
+            </p>
+
+
+            <div class="mission-options">
+
+
+                <button class="mission-option" onclick="answerMission('NORMAL')">
+
+                    <span>
+                        🟢
+                    </span>
+
+                    Normal Network Behaviour
+
+                </button>
+
+
+                <button class="mission-option" onclick="answerMission('PACKET_LOSS')">
+
+                    <span>
+                        📉
+                    </span>
+
+                    Packet Loss
+
+                </button>
+
+
+                <button class="mission-option" onclick="answerMission('TAMPERING')">
+
+                    <span>
+                        🔐
+                    </span>
+
+                    Possible Tampering
+
+                </button>
+
+
+                <button class="mission-option" onclick="answerMission('REPLAY')">
+
+                    <span>
+                        🔁
+                    </span>
+
+                    Replay Activity
+
+                </button>
+
+
+            </div>
+
+
+            <div id="missionFeedback" class="mission-feedback">
+
+                Generate traffic first to begin the mission.
+
+            </div>
+
 
         </section>
 

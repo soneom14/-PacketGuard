@@ -1332,3 +1332,174 @@ footer {
     }
 
 }
+
+/* =========================================
+   MISSION SYSTEM
+   ========================================= */
+
+.mission-panel {
+
+    margin-top: 20px;
+
+    padding: 24px;
+
+    border: 1px solid rgba(0, 191, 255, 0.35);
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15, 30, 45, 0.95),
+            rgba(7, 15, 25, 0.95)
+        );
+
+}
+
+
+.mission-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+}
+
+
+.mission-header h2 {
+
+    margin: 0;
+
+    font-size: 20px;
+
+}
+
+
+.mission-xp {
+
+    padding: 8px 14px;
+
+    border-radius: 20px;
+
+    border: 1px solid rgba(0, 191, 255, 0.5);
+
+    color: #00bfff;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+}
+
+
+.mission-question {
+
+    margin-top: 20px;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    color: rgba(255,255,255,0.75);
+
+}
+
+
+.mission-options {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 12px;
+
+    margin-top: 20px;
+
+}
+
+
+.mission-option {
+
+    padding: 16px;
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    border-radius: 10px;
+
+    background: rgba(255,255,255,0.04);
+
+    color: #ffffff;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
+
+}
+
+
+.mission-option:hover {
+
+    transform: translateY(-2px);
+
+    border-color: #00bfff;
+
+    background:
+        rgba(0,191,255,0.08);
+
+}
+
+
+.mission-option span {
+
+    margin-right: 8px;
+
+}
+
+
+.mission-feedback {
+
+    margin-top: 18px;
+
+    padding: 14px;
+
+    border-radius: 9px;
+
+    background:
+        rgba(255,255,255,0.04);
+
+    color: rgba(255,255,255,0.65);
+
+    font-size: 12px;
+
+}
+
+
+@media (max-width: 700px) {
+
+    .mission-options {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .mission-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+}
