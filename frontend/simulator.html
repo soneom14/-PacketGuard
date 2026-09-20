@@ -487,7 +487,6 @@
 
             <div id="mission02Options" class="mission-options" style="display:none;">
 
-
                 <button class="mission-option" onclick="answerMission02('NORMAL')">
 
                     🟢 Normal Traffic
@@ -514,7 +513,6 @@
                     🔐 Packet Tampering
 
                 </button>
-
 
             </div>
 
@@ -594,7 +592,6 @@
 
             <div id="mission03Options" class="mission-options" style="display:none;">
 
-
                 <button class="mission-option" onclick="answerMission03('NORMAL')">
 
                     🟢 Normal Traffic
@@ -617,6 +614,112 @@
 
 
                 <button class="mission-option" onclick="answerMission03('TAMPERING')">
+
+                    🔐 Packet Tampering
+
+                </button>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =========================================
+             MISSION 04 - PACKET REORDERING INVESTIGATION
+             ========================================= -->
+
+        <section class="mission-panel mission-locked" id="mission04Panel">
+
+
+            <div class="mission-header">
+
+                <div>
+
+                    <p class="section-label">
+                        MISSION 04
+                    </p>
+
+                    <h2>
+                        🔀 Packet Reordering Investigation
+                    </h2>
+
+                </div>
+
+
+                <span class="mission-xp">
+                    +50 XP
+                </span>
+
+            </div>
+
+
+            <p class="mission-question">
+
+                Investigate a network stream where packets
+                may have arrived in an unexpected order.
+
+                Analyse the sequence numbers and identify
+                what happened to the packet stream.
+
+            </p>
+
+
+            <!-- START MISSION 04 -->
+
+            <button class="mission-start-button" id="mission04StartButton" onclick="startMission04()" disabled>
+
+                🔍 START MISSION 04
+
+            </button>
+
+
+            <!-- MISSION 04 STATUS -->
+
+            <div id="mission04Status" class="mission-feedback">
+
+                Complete Mission 03 to unlock this mission.
+
+            </div>
+
+
+            <!-- MISSION 04 QUESTION -->
+
+            <div id="mission04Question" class="mission-question" style="display:none;">
+
+                What network anomaly was detected?
+
+            </div>
+
+
+            <!-- MISSION 04 OPTIONS -->
+
+            <div id="mission04Options" class="mission-options" style="display:none;">
+
+
+                <button class="mission-option" onclick="answerMission04('NORMAL')">
+
+                    🟢 Normal Traffic
+
+                </button>
+
+
+                <button class="mission-option" onclick="answerMission04('PACKET_LOSS')">
+
+                    📉 Packet Loss
+
+                </button>
+
+
+                <button class="mission-option" onclick="answerMission04('REORDERED')">
+
+                    🔀 Packet Reordering
+
+                </button>
+
+
+                <button class="mission-option" onclick="answerMission04('TAMPERING')">
 
                     🔐 Packet Tampering
 

@@ -2170,3 +2170,461 @@ document.addEventListener(
 
     }
 );
+
+// =========================================
+// MISSION 04 - PACKET REORDERING INVESTIGATION
+// =========================================
+
+let mission04Result = null;
+let mission04Completed = false;
+
+
+// =========================================
+// UNLOCK MISSION 04
+// =========================================
+
+function unlockMission04() {
+
+    const panel =
+        document.getElementById("mission04Panel");
+
+    const status =
+        document.getElementById("mission04Status");
+
+    const startButton =
+        document.getElementById("mission04StartButton");
+
+    if (!panel || !status || !startButton) {
+        return;
+    }
+
+    panel.classList.remove("mission-locked");
+
+    startButton.disabled = false;
+
+    status.textContent =
+        "Mission unlocked. Start the investigation.";
+
+    status.style.color = "#00c8ff";
+}
+
+
+// =========================================
+// START MISSION 04
+// =========================================
+
+async function startMission04() {
+
+    const status =
+        document.getElementById(
+            "mission04Status"
+        );
+
+    const question =
+        document.getElementById(
+            "mission04Question"
+        );
+
+    const options =
+        document.getElementById(
+            "mission04Options"
+        );
+
+    const startButton =
+        document.getElementById(
+            "mission04StartButton"
+        );
+
+
+    if (status) {
+
+        status.textContent =
+            "Generating packet-reordering investigation...";
+
+    }
+
+
+    if (startButton) {
+        startButton.disabled = true;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/simulate",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        count: 10,
+                        scenario: "reordered"
+                    })
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Server returned " +
+                response.status
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            throw new Error(
+                data.error ||
+                "Mission 04 simulation failed."
+            );
+
+        }
+
+
+        mission04Result = data;
+
+
+        // Show question
+
+        if (question) {
+
+            question.style.display =
+                "block";
+
+        }
+
+
+        // Show answer options
+
+        if (options) {
+
+            options.style.display =
+                "grid";
+
+        }
+
+
+        if (status) {
+
+            status.innerHTML = `
+
+                🔎 Investigation started.
+
+                <br>
+
+                <strong>
+                    ${data.count}
+                </strong>
+                packets received.
+
+                <br>
+
+                Analyse the sequence numbers
+                and identify the anomaly.
+
+            `;
+
+        }
+
+
+        console.log(
+            "Mission 04 result:",
+            data
+        );
+
+
+    }
+    catch (error) {
+
+        console.error(
+            "Mission 04 error:",
+            error
+        );
+
+
+        if (status) {
+
+            status.textContent =
+                "Unable to start Mission 04. Make sure the Flask backend is running.";
+
+        }
+
+
+        if (startButton) {
+
+            startButton.disabled =
+                false;
+
+        }
+
+    }
+
+}
+
+
+// =========================================
+// MISSION 04 - ANSWER HANDLER
+// =========================================
+
+function answerMission04(answer) {
+
+    if (!mission04Result) {
+
+        alert(
+            "Start Mission 04 first."
+        );
+
+        return;
+
+    }
+
+
+    const status =
+        document.getElementById(
+            "mission04Status"
+        );
+
+    const options =
+        document.getElementById(
+            "mission04Options"
+        );
+
+
+    const analysis =
+        mission04Result.analysis || {};
+
+
+    const summary =
+        analysis.summary || {};
+
+
+    const reordered =
+        summary.reordered || 0;
+
+
+    // =========================================
+    // CORRECT ANSWER
+    // =========================================
+
+    if (
+        answer === "REORDERED" &&
+        reordered > 0
+    ) {
+
+        if (mission04Completed) {
+            return;
+        }
+
+
+        mission04Completed =
+            true;
+
+
+        // Award 50 XP
+
+        score += 50;
+
+
+        localStorage.setItem(
+            "packetguardXP",
+            score
+        );
+
+
+        // Save Mission 04 completion
+
+        localStorage.setItem(
+            "packetguardMission04",
+            "completed"
+        );
+
+
+        updateLevel();
+
+
+        const scoreElement =
+            document.getElementById(
+                "score"
+            );
+
+
+        if (scoreElement) {
+
+            scoreElement.textContent =
+                score;
+
+        }
+
+
+        // Disable Mission 04 buttons only
+
+        if (options) {
+
+            const buttons =
+                options.querySelectorAll(
+                    "button"
+                );
+
+
+            buttons.forEach(button => {
+
+                button.disabled =
+                    true;
+
+                button.style.cursor =
+                    "default";
+
+            });
+
+        }
+
+
+        if (status) {
+
+            status.innerHTML = `
+
+                <strong>
+                    ✅ MISSION 04 COMPLETE
+                </strong>
+
+                <br><br>
+
+                Correct identification:
+                <strong>
+                    Packet Reordering
+                </strong>
+
+                <br>
+
+                Packets were detected outside
+                their expected sequence.
+
+                <br><br>
+
+                🎯 +50 XP awarded.
+
+                <br><br>
+
+                🔓 Mission 05 unlocked.
+
+            `;
+
+
+            status.style.border =
+                "1px solid rgba(0, 255, 136, 0.4)";
+
+
+            status.style.background =
+                "rgba(0, 255, 136, 0.08)";
+
+
+            status.style.color =
+                "#00ff88";
+
+        }
+
+
+        // Save Mission 05 unlock state
+
+        localStorage.setItem(
+            "packetguardMission05Unlocked",
+            "true"
+        );
+
+    }
+
+
+    // =========================================
+    // INCORRECT ANSWER
+    // =========================================
+
+    else {
+
+        if (status) {
+
+            status.innerHTML = `
+
+                <strong>
+                    ❌ INCORRECT
+                </strong>
+
+                <br><br>
+
+                Look carefully at the order of
+                the packet sequence numbers.
+
+                <br>
+
+                Are the packets arriving
+                sequentially?
+
+                <br>
+
+                Try again.
+
+            `;
+
+
+            status.style.border =
+                "1px solid rgba(255, 70, 70, 0.4)";
+
+
+            status.style.background =
+                "rgba(255, 70, 70, 0.08)";
+
+
+            status.style.color =
+                "#ff6666";
+
+        }
+
+    }
+
+}
+
+
+// =========================================
+// CHECK MISSION 04 UNLOCK STATUS
+// =========================================
+
+function checkMission04Unlock() {
+
+    const mission03Completed =
+        localStorage.getItem(
+            "packetguardMission03"
+        ) === "completed";
+
+
+    if (mission03Completed) {
+
+        unlockMission04();
+
+    }
+
+}
+
+
+// =========================================
+// INITIALIZE MISSION 04
+// =========================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        checkMission04Unlock();
+
+    }
+);
