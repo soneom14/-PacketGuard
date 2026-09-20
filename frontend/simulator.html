@@ -735,6 +735,59 @@
 
     </div>
 
+    <!-- MISSION 05 -->
+    <section class="mission-panel mission-locked" id="mission05Panel">
+
+        <div class="mission-header">
+            <div>
+                <p class="section-label">MISSION 05</p>
+                <h2>🔐 Packet Tampering Investigation</h2>
+            </div>
+
+            <span class="mission-xp">+50 XP</span>
+        </div>
+
+        <p class="mission-question">
+            Investigate a network stream where one or more
+            packets may have been modified during transmission.
+
+            Analyse the packet integrity information and
+            identify what happened.
+        </p>
+
+        <button class="mission-start-button" id="mission05StartButton" onclick="startMission05()" disabled>
+            🔍 START MISSION 05
+        </button>
+
+        <div id="mission05Status" class="mission-feedback">
+            Complete Mission 04 to unlock this mission.
+        </div>
+
+        <div id="mission05Question" class="mission-question" style="display:none;">
+            What network anomaly was detected?
+        </div>
+
+        <div id="mission05Options" class="mission-options" style="display:none;">
+
+            <button class="mission-option" onclick="answerMission05('NORMAL')">
+                🟢 Normal Traffic
+            </button>
+
+            <button class="mission-option" onclick="answerMission05('PACKET_LOSS')">
+                📉 Packet Loss
+            </button>
+
+            <button class="mission-option" onclick="answerMission05('DUPLICATE')">
+                📋 Duplicate Packets
+            </button>
+
+            <button class="mission-option" onclick="answerMission05('TAMPERING')">
+                🔐 Packet Tampering
+            </button>
+
+        </div>
+
+    </section>
 
 
     <!-- =========================================
