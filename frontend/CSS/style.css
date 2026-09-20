@@ -1941,3 +1941,80 @@ footer {
         display: none;
     }
 }
+
+/* =========================================
+   SECURITY ANALYTICS
+   ========================================= */
+
+.security-analytics {
+    margin: 35px 0;
+}
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.analytics-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 24px;
+    background: rgba(10, 27, 45, 0.75);
+    border: 1px solid #173b57;
+    border-radius: 14px;
+    transition: 0.2s ease;
+}
+
+.analytics-card:hover {
+    border-color: #00c8ff;
+    transform: translateY(-2px);
+}
+
+.analytics-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    font-size: 23px;
+
+    background: rgba(0, 200, 255, 0.08);
+    border: 1px solid rgba(0, 200, 255, 0.20);
+    border-radius: 12px;
+}
+
+.analytics-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.analytics-info span {
+    color: #71879b;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+}
+
+.analytics-info strong {
+    margin: 4px 0;
+    color: #00c8ff;
+    font-size: 28px;
+}
+
+.analytics-info small {
+    color: #71879b;
+    font-size: 10px;
+}
+
+@media (max-width: 700px) {
+
+    .analytics-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
