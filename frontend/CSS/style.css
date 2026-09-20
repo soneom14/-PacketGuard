@@ -1559,3 +1559,134 @@ footer {
 #mission02Status strong {
     color: inherit;
 }
+
+/* =========================================
+   PACKETGUARD COMPLETION PANEL
+   ========================================= */
+
+.completion-panel {
+    margin: 40px 0;
+    padding: 40px 30px;
+    text-align: center;
+
+    background:
+        linear-gradient(145deg,
+            rgba(0, 174, 232, 0.08),
+            rgba(0, 255, 136, 0.04));
+
+    border: 1px solid rgba(0, 200, 255, 0.25);
+    border-radius: 18px;
+
+    box-shadow:
+        0 0 30px rgba(0, 174, 232, 0.08);
+
+    position: relative;
+    overflow: hidden;
+}
+
+.completion-icon {
+    font-size: 58px;
+    margin-bottom: 10px;
+}
+
+.completion-panel h2 {
+    margin: 8px 0 12px;
+    font-size: 30px;
+    letter-spacing: 2px;
+}
+
+.completion-message {
+    max-width: 650px;
+    margin: 0 auto 30px;
+    color: #a9b8c8;
+    line-height: 1.6;
+}
+
+.completion-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    max-width: 650px;
+    margin: 0 auto 30px;
+}
+
+.completion-stat {
+    padding: 20px 10px;
+    background: rgba(0, 0, 0, 0.18);
+    border: 1px solid rgba(0, 200, 255, 0.15);
+    border-radius: 12px;
+}
+
+.completion-stat-value {
+    display: block;
+    font-size: 28px;
+    font-weight: bold;
+    color: #00c8ff;
+    margin-bottom: 6px;
+}
+
+.completion-stat-label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: #8293a5;
+}
+
+.completion-anomalies {
+    max-width: 650px;
+    margin: 0 auto 30px;
+    text-align: left;
+}
+
+.completion-anomalies h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+
+.completion-anomaly {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px 15px;
+    margin-bottom: 8px;
+
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 9px;
+
+    color: #d8e2ec;
+    font-size: 14px;
+}
+
+.completion-badge {
+    display: inline-block;
+
+    padding: 12px 22px;
+
+    border: 1px solid rgba(0, 255, 136, 0.35);
+    border-radius: 30px;
+
+    background: rgba(0, 255, 136, 0.08);
+
+    color: #00ff88;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+}
+
+@media (max-width: 600px) {
+
+    .completion-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .completion-panel {
+        padding: 30px 18px;
+    }
+
+    .completion-panel h2 {
+        font-size: 24px;
+    }
+}

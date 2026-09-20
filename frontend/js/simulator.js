@@ -3149,3 +3149,92 @@ document.addEventListener(
         checkMission06Unlock();
     }
 );
+
+// =========================================
+// PACKETGUARD COMPLETION SYSTEM
+// =========================================
+
+function updateCompletionPanel() {
+
+    const completionPanel =
+        document.getElementById("completionPanel");
+
+    if (!completionPanel) return;
+
+    const missions = [
+        "packetguardMission01",
+        "packetguardMission02",
+        "packetguardMission03",
+        "packetguardMission04",
+        "packetguardMission05",
+        "packetguardMission06"
+    ];
+
+    let completedMissions = 0;
+
+    missions.forEach(function (mission) {
+        if (localStorage.getItem(mission) === "completed") {
+            completedMissions++;
+        }
+    });
+
+    const xp =
+        parseInt(
+            localStorage.getItem("packetguardXP") || "0",
+            10
+        );
+
+    const levelElement =
+        document.getElementById("playerLevel");
+
+    const level =
+        levelElement
+            ? levelElement.textContent
+            : "1";
+
+    const missionElement =
+        document.getElementById("completionMissions");
+
+    const xpElement =
+        document.getElementById("completionXP");
+
+    const completionLevel =
+        document.getElementById("completionLevel");
+
+    if (missionElement) {
+        missionElement.textContent =
+            completedMissions + "/6";
+    }
+
+    if (xpElement) {
+        xpElement.textContent = xp;
+    }
+
+    if (completionLevel) {
+        completionLevel.textContent = level;
+    }
+
+    /*
+     * Only show the final completion state
+     * after all six missions are completed.
+     */
+
+    if (completedMissions === 6) {
+
+        completionPanel.style.display = "block";
+
+    } else {
+
+        completionPanel.style.display = "none";
+    }
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        setTimeout(function () {
+            updateCompletionPanel();
+        }, 100);
+    }
+);
