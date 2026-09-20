@@ -1710,3 +1710,463 @@ document.addEventListener(
 
     }
 );
+
+// =========================================
+// MISSION 03 - DUPLICATE PACKET INVESTIGATION
+// =========================================
+
+let mission03Result = null;
+let mission03Completed = false;
+
+
+// =========================================
+// UNLOCK MISSION 03
+// =========================================
+
+function unlockMission03() {
+
+    const panel =
+        document.getElementById("mission03Panel");
+
+    const status =
+        document.getElementById("mission03Status");
+
+    const startButton =
+        document.getElementById("mission03StartButton");
+
+    if (!panel || !status || !startButton) {
+        return;
+    }
+
+    panel.classList.remove("mission-locked");
+
+    startButton.disabled = false;
+
+    status.textContent =
+        "Mission unlocked. Start the investigation.";
+
+    status.style.color = "#00c8ff";
+}
+
+
+// =========================================
+// START MISSION 03
+// =========================================
+
+async function startMission03() {
+
+    const status =
+        document.getElementById(
+            "mission03Status"
+        );
+
+    const question =
+        document.getElementById(
+            "mission03Question"
+        );
+
+    const options =
+        document.getElementById(
+            "mission03Options"
+        );
+
+    const startButton =
+        document.getElementById(
+            "mission03StartButton"
+        );
+
+
+    if (status) {
+
+        status.textContent =
+            "Generating duplicate-packet investigation...";
+
+    }
+
+
+    if (startButton) {
+        startButton.disabled = true;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/simulate",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        count: 10,
+                        scenario: "duplicate"
+                    })
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Server returned " +
+                response.status
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            throw new Error(
+                data.error ||
+                "Mission 03 simulation failed."
+            );
+
+        }
+
+
+        mission03Result = data;
+
+
+        // Show question
+        if (question) {
+
+            question.style.display =
+                "block";
+
+        }
+
+
+        // Show options
+        if (options) {
+
+            options.style.display =
+                "grid";
+
+        }
+
+
+        // Find duplicate count
+        const duplicates =
+            data.analysis &&
+                data.analysis.summary
+                ? data.analysis.summary.duplicates || 0
+                : 0;
+
+
+        if (status) {
+
+            status.innerHTML = `
+
+                🔎 Investigation started.
+
+                <br>
+
+                <strong>
+                    ${data.count}
+                </strong>
+                packets received.
+
+                <br>
+
+                Analyse the packet sequence
+                and identify the anomaly.
+
+            `;
+
+        }
+
+
+        console.log(
+            "Mission 03 result:",
+            data
+        );
+
+
+    }
+    catch (error) {
+
+        console.error(
+            "Mission 03 error:",
+            error
+        );
+
+
+        if (status) {
+
+            status.textContent =
+                "Unable to start Mission 03. Make sure the Flask backend is running.";
+
+        }
+
+
+        if (startButton) {
+
+            startButton.disabled =
+                false;
+
+        }
+
+    }
+
+}
+
+
+// =========================================
+// MISSION 03 - ANSWER HANDLER
+// =========================================
+
+function answerMission03(answer) {
+
+    if (!mission03Result) {
+
+        alert(
+            "Start Mission 03 first."
+        );
+
+        return;
+
+    }
+
+
+    const status =
+        document.getElementById(
+            "mission03Status"
+        );
+
+    const options =
+        document.getElementById(
+            "mission03Options"
+        );
+
+
+    const analysis =
+        mission03Result.analysis || {};
+
+
+    const summary =
+        analysis.summary || {};
+
+
+    const duplicates =
+        summary.duplicates || 0;
+
+
+    // =========================================
+    // CORRECT ANSWER
+    // =========================================
+
+    if (
+        answer === "DUPLICATE" &&
+        duplicates > 0
+    ) {
+
+        if (mission03Completed) {
+            return;
+        }
+
+
+        mission03Completed =
+            true;
+
+
+        // Award 50 XP
+        score += 50;
+
+
+        localStorage.setItem(
+            "packetguardXP",
+            score
+        );
+
+
+        // Save Mission 03 completion
+        localStorage.setItem(
+            "packetguardMission03",
+            "completed"
+        );
+
+
+        updateLevel();
+
+
+        const scoreElement =
+            document.getElementById(
+                "score"
+            );
+
+
+        if (scoreElement) {
+
+            scoreElement.textContent =
+                score;
+
+        }
+
+
+        // Disable Mission 03 buttons only
+        if (options) {
+
+            const buttons =
+                options.querySelectorAll(
+                    "button"
+                );
+
+
+            buttons.forEach(button => {
+
+                button.disabled =
+                    true;
+
+                button.style.cursor =
+                    "default";
+
+            });
+
+        }
+
+
+        if (status) {
+
+            status.innerHTML = `
+
+                <strong>
+                    ✅ MISSION 03 COMPLETE
+                </strong>
+
+                <br><br>
+
+                Correct identification:
+                <strong>
+                    Duplicate Packets
+                </strong>
+
+                <br>
+
+                Repeated packet sequence numbers
+                were detected in the network stream.
+
+                <br><br>
+
+                🎯 +50 XP awarded.
+
+                <br><br>
+
+                🔓 Mission 04 unlocked.
+
+            `;
+
+
+            status.style.border =
+                "1px solid rgba(0, 255, 136, 0.4)";
+
+
+            status.style.background =
+                "rgba(0, 255, 136, 0.08)";
+
+
+            status.style.color =
+                "#00ff88";
+
+        }
+
+
+        // Save Mission 04 unlock state
+        localStorage.setItem(
+            "packetguardMission04Unlocked",
+            "true"
+        );
+
+    }
+
+
+    // =========================================
+    // INCORRECT ANSWER
+    // =========================================
+
+    else {
+
+        if (status) {
+
+            status.innerHTML = `
+
+                <strong>
+                    ❌ INCORRECT
+                </strong>
+
+                <br><br>
+
+                Look at the sequence numbers
+                in the packet stream.
+
+                <br>
+
+                Check whether the same sequence
+                number appears more than once.
+
+                <br>
+
+                Try again.
+
+            `;
+
+
+            status.style.border =
+                "1px solid rgba(255, 70, 70, 0.4)";
+
+
+            status.style.background =
+                "rgba(255, 70, 70, 0.08)";
+
+
+            status.style.color =
+                "#ff6666";
+
+        }
+
+    }
+
+}
+
+
+// =========================================
+// CHECK MISSION 03 UNLOCK STATUS
+// =========================================
+
+function checkMission03Unlock() {
+
+    const mission02Completed =
+        localStorage.getItem(
+            "packetguardMission02"
+        ) === "completed";
+
+
+    if (mission02Completed) {
+
+        unlockMission03();
+
+    }
+
+}
+
+
+// =========================================
+// INITIALIZE MISSION 03
+// =========================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        checkMission03Unlock();
+
+    }
+);
