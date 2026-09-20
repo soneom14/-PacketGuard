@@ -1690,3 +1690,254 @@ footer {
         font-size: 24px;
     }
 }
+
+/* =========================================
+   PLAYER PROFILE
+   ========================================= */
+
+.player-profile {
+    margin: 25px 0;
+    padding: 25px 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+
+    background: rgba(0, 174, 232, 0.05);
+
+    border: 1px solid rgba(0, 200, 255, 0.20);
+    border-radius: 16px;
+}
+
+.profile-main {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.profile-avatar {
+    width: 65px;
+    height: 65px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 32px;
+
+    background: rgba(0, 200, 255, 0.10);
+    border: 1px solid rgba(0, 200, 255, 0.25);
+
+    border-radius: 50%;
+}
+
+.profile-info h2 {
+    margin: 4px 0;
+
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+.profile-rank {
+    margin: 0;
+
+    color: #00c8ff;
+
+    font-size: 11px;
+    font-weight: bold;
+
+    letter-spacing: 1.5px;
+}
+
+.profile-progress {
+    width: 45%;
+    min-width: 280px;
+}
+
+.profile-progress-header,
+.profile-progress-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-size: 11px;
+}
+
+.profile-progress-header {
+    margin-bottom: 10px;
+    color: #9baabd;
+}
+
+.profile-progress-header strong {
+    color: #00c8ff;
+}
+
+.profile-progress-bar {
+    width: 100%;
+    height: 9px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.profile-progress-fill {
+    height: 100%;
+
+    background: #00c8ff;
+
+    border-radius: 10px;
+
+    transition: width 0.5s ease;
+}
+
+.profile-progress-footer {
+    margin-top: 8px;
+    color: #718096;
+}
+
+@media (max-width: 700px) {
+
+    .player-profile {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .profile-progress {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+/* =========================================
+   DASHBOARD MISSION PROGRESS
+   ========================================= */
+
+.mission-progress-section {
+    margin: 35px 0;
+}
+
+.mission-progress-count {
+    padding: 8px 14px;
+
+    border: 1px solid rgba(0, 200, 255, 0.25);
+    border-radius: 20px;
+
+    color: #00c8ff;
+    background: rgba(0, 200, 255, 0.06);
+
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.dashboard-missions {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 12px;
+
+    margin-top: 20px;
+}
+
+.dashboard-mission {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 18px;
+
+    background: rgba(10, 27, 45, 0.75);
+
+    border: 1px solid #173b57;
+    border-radius: 12px;
+
+    transition: 0.2s ease;
+}
+
+.dashboard-mission:hover {
+    border-color: #00c8ff;
+
+    transform: translateY(-2px);
+}
+
+.dashboard-mission-number {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background: rgba(0, 200, 255, 0.08);
+
+    color: #00c8ff;
+
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.dashboard-mission-info {
+    flex: 1;
+}
+
+.dashboard-mission-info strong {
+    display: block;
+
+    color: #d9e7f2;
+
+    font-size: 13px;
+
+    margin-bottom: 5px;
+}
+
+.dashboard-mission-info span {
+    color: #71879b;
+
+    font-size: 11px;
+}
+
+.dashboard-mission-status {
+    font-size: 18px;
+
+    min-width: 25px;
+
+    text-align: center;
+}
+
+/* Completed mission */
+
+.dashboard-mission.completed {
+    border-color: rgba(0, 255, 136, 0.35);
+
+    background: rgba(0, 255, 136, 0.04);
+}
+
+.dashboard-mission.completed .dashboard-mission-number {
+    background: rgba(0, 255, 136, 0.10);
+
+    color: #00ff88;
+}
+
+.dashboard-mission.completed .dashboard-mission-info strong {
+    color: #00ff88;
+}
+
+@media (max-width: 700px) {
+
+    .dashboard-missions {
+        grid-template-columns: 1fr;
+    }
+
+    .mission-progress-count {
+        display: none;
+    }
+}
