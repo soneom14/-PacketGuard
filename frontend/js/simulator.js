@@ -2878,3 +2878,274 @@ document.addEventListener(
         checkMission05Unlock();
     }
 );
+
+// =========================================
+// MISSION 06 - FINAL SECURITY CHALLENGE
+// =========================================
+
+let mission06Result = null;
+let mission06Completed = false;
+
+function unlockMission06() {
+    const panel = document.getElementById("mission06Panel");
+    const status = document.getElementById("mission06Status");
+    const startButton = document.getElementById("mission06StartButton");
+
+    if (!panel || !status || !startButton) return;
+
+    panel.classList.remove("mission-locked");
+    startButton.disabled = false;
+
+    status.textContent =
+        "Final challenge unlocked. Analyse the network traffic.";
+    status.style.color = "#00c8ff";
+}
+
+async function startMission06() {
+    const status = document.getElementById("mission06Status");
+    const question = document.getElementById("mission06Question");
+    const options = document.getElementById("mission06Options");
+    const startButton = document.getElementById("mission06StartButton");
+
+    if (status) {
+        status.textContent =
+            "Generating final security investigation...";
+    }
+
+    if (startButton) {
+        startButton.disabled = true;
+    }
+
+    try {
+        const response = await fetch("/api/simulate", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                count: 20,
+                scenario: "mixed"
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(
+                "Server returned " + response.status
+            );
+        }
+
+        const data = await response.json();
+
+        if (!data.success) {
+            throw new Error(
+                data.error || "Mission 06 simulation failed."
+            );
+        }
+
+        mission06Result = data;
+
+        if (question) {
+            question.style.display = "block";
+        }
+
+        if (options) {
+            options.style.display = "grid";
+        }
+
+        if (status) {
+            status.innerHTML = `
+                🛡️ Final investigation started.<br>
+                <strong>${data.count}</strong> packets received.<br>
+                Multiple anomalies may be present.
+                Analyse the traffic carefully and identify
+                the primary security issue.
+            `;
+        }
+
+        console.log("Mission 06 result:", data);
+
+    } catch (error) {
+
+        console.error("Mission 06 error:", error);
+
+        if (status) {
+            status.textContent =
+                "Unable to start Mission 06. Make sure the Flask backend is running.";
+        }
+
+        if (startButton) {
+            startButton.disabled = false;
+        }
+    }
+}
+
+function answerMission06(answer) {
+
+    if (!mission06Result) {
+        alert("Start the Final Challenge first.");
+        return;
+    }
+
+    if (mission06Completed) {
+        return;
+    }
+
+    const status =
+        document.getElementById("mission06Status");
+
+    const options =
+        document.getElementById("mission06Options");
+
+    const analysis =
+        mission06Result.analysis || {};
+
+    const summary =
+        analysis.summary || {};
+
+    /*
+     * The mixed scenario contains multiple anomalies.
+     * Packet tampering is treated as the primary
+     * security issue because it represents an
+     * integrity violation.
+     */
+
+    const integrityErrors =
+        summary.integrity_errors || 0;
+
+    if (
+        answer === "TAMPERING" &&
+        integrityErrors > 0
+    ) {
+
+        mission06Completed = true;
+
+        score += 100;
+
+        localStorage.setItem(
+            "packetguardXP",
+            score
+        );
+
+        localStorage.setItem(
+            "packetguardMission06",
+            "completed"
+        );
+
+        updateLevel();
+
+        const scoreElement =
+            document.getElementById("score");
+
+        if (scoreElement) {
+            scoreElement.textContent = score;
+        }
+
+        if (options) {
+
+            const buttons =
+                options.querySelectorAll("button");
+
+            buttons.forEach(button => {
+                button.disabled = true;
+                button.style.cursor = "default";
+            });
+        }
+
+        if (status) {
+
+            status.innerHTML = `
+                <strong>🏆 FINAL CHALLENGE COMPLETE</strong>
+
+                <br><br>
+
+                Correct identification:
+                <strong>Packet Tampering</strong>
+
+                <br><br>
+
+                The network stream contained multiple
+                anomalies, including packet loss,
+                duplicate packets and packet reordering.
+
+                <br><br>
+
+                However, the integrity violation indicates
+                a potential packet-tampering event.
+
+                <br><br>
+
+                🎯 <strong>+100 XP awarded.</strong>
+
+                <br><br>
+
+                🛡️ <strong>PACKETGUARD SECURITY LAB COMPLETE</strong>
+
+                <br><br>
+
+                You successfully completed all
+                six security investigations.
+            `;
+
+            status.style.border =
+                "1px solid rgba(0, 255, 136, 0.5)";
+
+            status.style.background =
+                "rgba(0, 255, 136, 0.10)";
+
+            status.style.color =
+                "#00ff88";
+        }
+
+    } else {
+
+        if (status) {
+
+            status.innerHTML = `
+                <strong>❌ INVESTIGATION INCOMPLETE</strong>
+
+                <br><br>
+
+                The final challenge contains
+                multiple network anomalies.
+
+                <br><br>
+
+                Examine the packet integrity information
+                and determine which anomaly represents
+                a potential security violation.
+
+                <br><br>
+
+                Analyse the evidence and try again.
+            `;
+
+            status.style.border =
+                "1px solid rgba(255, 70, 70, 0.4)";
+
+            status.style.background =
+                "rgba(255, 70, 70, 0.08)";
+
+            status.style.color =
+                "#ff6666";
+        }
+    }
+}
+
+function checkMission06Unlock() {
+
+    const mission05Completed =
+        localStorage.getItem(
+            "packetguardMission05"
+        ) === "completed";
+
+    if (mission05Completed) {
+        unlockMission06();
+    }
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+        checkMission06Unlock();
+    }
+);

@@ -789,6 +789,65 @@
 
     </section>
 
+    <!-- MISSION 06 -->
+    <section class="mission-panel mission-locked" id="mission06Panel">
+
+        <div class="mission-header">
+            <div>
+                <p class="section-label">MISSION 06</p>
+                <h2>🛡️ Final Security Challenge</h2>
+            </div>
+
+            <span class="mission-xp">+100 XP</span>
+        </div>
+
+        <p class="mission-question">
+            This is the final PacketGuard security investigation.
+
+            Analyse a network stream containing multiple possible
+            anomalies and determine the primary security issue.
+        </p>
+
+        <button class="mission-start-button" id="mission06StartButton" onclick="startMission06()" disabled>
+            🛡️ START FINAL CHALLENGE
+        </button>
+
+        <div id="mission06Status" class="mission-feedback">
+            Complete Mission 05 to unlock the final challenge.
+        </div>
+
+        <div id="mission06Question" class="mission-question" style="display:none;">
+            Which security issue was detected in the network traffic?
+        </div>
+
+        <div id="mission06Options" class="mission-options" style="display:none;">
+
+            <button class="mission-option" onclick="answerMission06('NORMAL')">
+                🟢 Normal Traffic
+            </button>
+
+            <button class="mission-option" onclick="answerMission06('PACKET_LOSS')">
+                📉 Packet Loss
+            </button>
+
+            <button class="mission-option" onclick="answerMission06('DUPLICATE')">
+                📋 Duplicate Packets
+            </button>
+
+            <button class="mission-option" onclick="answerMission06('REORDERED')">
+                🔀 Packet Reordering
+            </button>
+
+            <button class="mission-option" onclick="answerMission06('TAMPERING')">
+                🔐 Packet Tampering
+            </button>
+
+        </div>
+
+    </section>
+
+
+    
 
     <!-- =========================================
          JAVASCRIPT
