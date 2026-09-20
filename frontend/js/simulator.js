@@ -13,7 +13,7 @@ let threatResult = null;
 
 
 // =========================================
-// GENERATE SIMULATED PACKETS
+// GENERATE SIMULATED PACKETS 
 // =========================================
 
 async function generatePackets() {
