@@ -2,92 +2,99 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>PacketGuard | Dashboard</title>
+    <title>PacketGuard Dashboard</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="CSS/style.css">
+
 </head>
+
 
 <body>
 
-    <div class="dashboard">
 
-        <!-- ================= HEADER ================= -->
+    <!-- =====================================================
+     HEADER
+===================================================== -->
 
-        <header class="dashboard-header">
+    <header class="topbar">
 
-            <div class="brand">
+        <div class="brand">
 
-                <div class="brand-icon">
-                    🛡️
-                </div>
+            <div class="brand-icon">
+                🛡️
+            </div>
 
-                <div>
-                    <h1>PACKET<span>GUARD</span></h1>
+            <div>
 
-                    <p>
-                        Security Operations & Learning Lab
-                    </p>
-                </div>
+                <h1>PACKETGUARD</h1>
+
+                <span>
+                    Security Simulation Lab
+                </span>
 
             </div>
 
-
-            <div class="user-area">
-
-                <div class="user-info">
-
-                    <span class="user-label">
-                        CYBER DEFENDER
-                    </span>
-
-                    <strong id="usernameDisplay">
-                        Defender
-                    </strong>
-
-                </div>
-
-                <button class="logout-button" onclick="logout()">
-
-                    LOGOUT
-
-                </button>
-
-            </div>
-
-        </header>
+        </div>
 
 
-        <!-- ================= WELCOME ================= -->
+        <div class="user-area">
+
+            <span id="dashboardUsername">
+                Defender
+            </span>
+
+            <button class="logout-btn" onclick="window.location.href='index.html'">
+                EXIT
+            </button>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+    <main class="dashboard-container">
+
+
+        <!-- =================================================
+         WELCOME
+    ================================================== -->
 
         <section class="welcome-section">
 
             <div>
 
                 <p class="section-label">
-                    SECURITY LAB
+                    SECURITY OPERATIONS CENTER
                 </p>
 
                 <h2>
                     Welcome back,
-                    <span id="welcomeUser">
+                    <span id="welcomeUsername">
                         Defender
-                    </span> 👋
+                    </span>
+                    👋
                 </h2>
 
-                <p class="welcome-description">
-
-                    Train your packet analysis skills,
-                    detect anomalies and defend the network.
-
+                <p>
+                    Track your security investigations,
+                    analyse network anomalies and improve
+                    your cybersecurity skills.
                 </p>
 
             </div>
 
 
-            <div class="security-status">
+            <div class="system-status">
 
                 <span class="status-dot"></span>
 
@@ -98,9 +105,10 @@
         </section>
 
 
-        <!-- ================= STATISTICS ================= -->
 
-        <!-- ================= PLAYER PROFILE ================= -->
+        <!-- =================================================
+         PLAYER PROFILE
+    ================================================== -->
 
         <section class="player-profile">
 
@@ -121,7 +129,7 @@
                     </h2>
 
                     <p class="profile-rank" id="profileRank">
-                        SECURITY TRAINEE
+                        RECRUIT
                     </p>
 
                 </div>
@@ -143,20 +151,22 @@
 
                 </div>
 
+
                 <div class="profile-progress-bar">
 
-                    <div class="profile-progress-fill" id="profileProgressFill" style="width: 35%;"></div>
+                    <div class="profile-progress-fill" id="profileProgressFill" style="width: 0%;"></div>
 
                 </div>
+
 
                 <div class="profile-progress-footer">
 
                     <span id="profileXP">
-                        350 XP
+                        0 XP
                     </span>
 
                     <span id="profileNextXP">
-                        1000 XP
+                        50 XP
                     </span>
 
                 </div>
@@ -165,130 +175,184 @@
 
         </section>
 
-        <section class="stats-grid">
 
 
-            <div class="stat-card">
+        <!-- =================================================
+         STATISTICS
+    ================================================== -->
 
-                <div class="stat-top">
+        <section class="statistics-section">
 
-                    <span class="stat-title">
-                        CURRENT LEVEL
-                    </span>
+            <div class="section-heading">
 
-                    <span class="stat-icon">
-                        🎯
-                    </span>
+                <div>
+
+                    <p class="section-label">
+                        PLAYER STATISTICS
+                    </p>
+
+                    <h2>
+                        Security Performance
+                    </h2>
 
                 </div>
 
-                <div class="stat-value">
-                    01
-                </div>
+            </div>
 
-                <div class="progress-bar">
 
-                    <div class="progress-fill" style="width: 35%;">
+            <div class="stats-grid">
+
+
+                <!-- LEVEL -->
+
+                <div class="stat-card">
+
+                    <div class="stat-card-header">
+
+                        <span>
+                            CURRENT LEVEL
+                        </span>
+
+                        <span>
+                            🏅
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-value" id="dashboardLevelValue">
+                        01
+                    </div>
+
+
+                    <div class="stat-progress">
+
+                        <div class="stat-progress-fill" id="dashboardLevelProgress" style="width: 0%;"></div>
+
+                    </div>
+
+
+                    <div class="stat-footer">
+
+                        <span id="dashboardXPProgress">
+                            0 / 50 XP
+                        </span>
+
+                        <span>
+                            LEVEL PROGRESS
+                        </span>
+
                     </div>
 
                 </div>
 
-                <p class="stat-footer">
-                    350 / 1000 XP
-                </p>
-
-            </div>
 
 
-            <div class="stat-card">
+                <!-- XP -->
 
-                <div class="stat-top">
+                <div class="stat-card">
 
-                    <span class="stat-title">
-                        TOTAL XP
-                    </span>
+                    <div class="stat-card-header">
 
-                    <span class="stat-icon">
-                        ⚡
-                    </span>
+                        <span>
+                            TOTAL XP
+                        </span>
 
-                </div>
+                        <span>
+                            ⚡
+                        </span>
 
-                <div class="stat-value" id="xpValue">
-
-                    350
-
-                </div>
-
-                <p class="stat-footer">
-                    +150 this session
-                </p>
-
-            </div>
+                    </div>
 
 
-            <div class="stat-card">
+                    <div class="stat-value" id="xpValue">
+                        0
+                    </div>
 
-                <div class="stat-top">
 
-                    <span class="stat-title">
-                        ACCURACY
-                    </span>
-
-                    <span class="stat-icon">
-                        🎯
-                    </span>
+                    <div class="stat-description">
+                        Experience earned
+                        through security missions
+                    </div>
 
                 </div>
 
-                <div class="stat-value" id="accuracyValue">
-
-                    0%
-
-                </div>
-
-                <p class="stat-footer">
-                    Packet analysis accuracy
-                </p>
-
-            </div>
 
 
-            <div class="stat-card">
+                <!-- COMPLETION -->
 
-                <div class="stat-top">
+                <div class="stat-card">
 
-                    <span class="stat-title">
-                        MISSIONS
-                    </span>
+                    <div class="stat-card-header">
 
-                    <span class="stat-icon">
-                        🏆
-                    </span>
+                        <span>
+                            COMPLETION RATE
+                        </span>
 
-                </div>
+                        <span>
+                            🎯
+                        </span>
 
-                <div class="stat-value" id="missionValue">
+                    </div>
 
-                    0
+
+                    <div class="stat-value" id="accuracyValue">
+                        0%
+                    </div>
+
+
+                    <div class="stat-description">
+                        Security mission completion
+                    </div>
 
                 </div>
 
-                <p class="stat-footer">
-                    Missions completed
-                </p>
+
+
+                <!-- MISSIONS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-card-header">
+
+                        <span>
+                            MISSIONS
+                        </span>
+
+                        <span>
+                            🏆
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-value" id="missionValue">
+                        0
+                    </div>
+
+
+                    <div class="stat-description">
+                        Investigations completed
+                    </div>
+
+                </div>
 
             </div>
 
         </section>
 
-        <!-- ================= MISSION PROGRESS ================= -->
+
+
+        <!-- =================================================
+         MISSION PROGRESS
+    ================================================== -->
 
         <section class="mission-progress-section">
 
             <div class="section-heading">
 
                 <div>
+
                     <p class="section-label">
                         SECURITY TRAINING
                     </p>
@@ -296,7 +360,9 @@
                     <h2>
                         Mission Progress
                     </h2>
+
                 </div>
+
 
                 <span class="mission-progress-count" id="dashboardMissionCount">
                     0 / 6 COMPLETED
@@ -307,131 +373,411 @@
 
             <div class="dashboard-missions">
 
+
+                <!-- MISSION 01 -->
+
                 <div class="dashboard-mission" id="dashboardMission01">
-                    <div class="dashboard-mission-number">01</div>
+
+                    <div class="dashboard-mission-number">
+                        01
+                    </div>
 
                     <div class="dashboard-mission-info">
-                        <strong>Security Issue Identification</strong>
-                        <span>Identify suspicious network behaviour</span>
+
+                        <strong>
+                            Security Issue Identification
+                        </strong>
+
+                        <span>
+                            Identify suspicious network behaviour
+                        </span>
+
                     </div>
 
                     <div class="dashboard-mission-status">
                         🔒
                     </div>
+
                 </div>
 
+
+
+                <!-- MISSION 02 -->
 
                 <div class="dashboard-mission" id="dashboardMission02">
-                    <div class="dashboard-mission-number">02</div>
+
+                    <div class="dashboard-mission-number">
+                        02
+                    </div>
 
                     <div class="dashboard-mission-info">
-                        <strong>Packet Loss Investigation</strong>
-                        <span>Detect missing sequence numbers</span>
+
+                        <strong>
+                            Packet Loss Investigation
+                        </strong>
+
+                        <span>
+                            Detect missing sequence numbers
+                        </span>
+
                     </div>
 
                     <div class="dashboard-mission-status">
                         🔒
                     </div>
+
                 </div>
 
+
+
+                <!-- MISSION 03 -->
 
                 <div class="dashboard-mission" id="dashboardMission03">
-                    <div class="dashboard-mission-number">03</div>
+
+                    <div class="dashboard-mission-number">
+                        03
+                    </div>
 
                     <div class="dashboard-mission-info">
-                        <strong>Duplicate Packet Investigation</strong>
-                        <span>Identify repeated packets</span>
+
+                        <strong>
+                            Duplicate Packet Investigation
+                        </strong>
+
+                        <span>
+                            Identify repeated packets
+                        </span>
+
                     </div>
 
                     <div class="dashboard-mission-status">
                         🔒
                     </div>
+
                 </div>
 
+
+
+                <!-- MISSION 04 -->
 
                 <div class="dashboard-mission" id="dashboardMission04">
-                    <div class="dashboard-mission-number">04</div>
+
+                    <div class="dashboard-mission-number">
+                        04
+                    </div>
 
                     <div class="dashboard-mission-info">
-                        <strong>Packet Reordering Investigation</strong>
-                        <span>Analyse unexpected packet order</span>
+
+                        <strong>
+                            Packet Reordering Investigation
+                        </strong>
+
+                        <span>
+                            Analyse unexpected packet order
+                        </span>
+
                     </div>
 
                     <div class="dashboard-mission-status">
                         🔒
                     </div>
+
                 </div>
 
+
+
+                <!-- MISSION 05 -->
 
                 <div class="dashboard-mission" id="dashboardMission05">
-                    <div class="dashboard-mission-number">05</div>
+
+                    <div class="dashboard-mission-number">
+                        05
+                    </div>
 
                     <div class="dashboard-mission-info">
-                        <strong>Packet Tampering Investigation</strong>
-                        <span>Detect integrity violations</span>
+
+                        <strong>
+                            Packet Tampering Investigation
+                        </strong>
+
+                        <span>
+                            Detect integrity violations
+                        </span>
+
                     </div>
 
                     <div class="dashboard-mission-status">
                         🔒
                     </div>
+
                 </div>
 
 
+
+                <!-- MISSION 06 -->
+
                 <div class="dashboard-mission" id="dashboardMission06">
-                    <div class="dashboard-mission-number">06</div>
+
+                    <div class="dashboard-mission-number">
+                        06
+                    </div>
 
                     <div class="dashboard-mission-info">
-                        <strong>Final Security Challenge</strong>
-                        <span>Analyse multiple network anomalies</span>
+
+                        <strong>
+                            Final Security Challenge
+                        </strong>
+
+                        <span>
+                            Analyse multiple network anomalies
+                        </span>
+
                     </div>
 
                     <div class="dashboard-mission-status">
                         🔒
                     </div>
+
                 </div>
 
             </div>
 
         </section>
 
-        <!-- ================= SECURITY ANALYTICS ================= -->
 
-        <section class="security-analytics">
+
+        <!-- =================================================
+         SECURITY ANALYTICS
+    ================================================== -->
+
+        <section class="analytics-section">
 
             <div class="section-heading">
+
                 <div>
-                    <p class="section-label">SECURITY ANALYTICS</p>
-                    <h2>Investigation Overview</h2>
+
+                    <p class="section-label">
+                        SECURITY PERFORMANCE
+                    </p>
+
+                    <h2>
+                        Security Analytics
+                    </h2>
+
                 </div>
+
+
+                <span class="analytics-status">
+                    LIVE ANALYTICS
+                </span>
+
             </div>
+
 
             <div class="analytics-grid">
 
-                <div class="analytics-card">
-                    <div class="analytics-icon">🔎</div>
 
-                    <div class="analytics-info">
-                        <span>TOTAL INVESTIGATIONS</span>
-                        <strong id="investigationValue">0</strong>
-                        <small>Security investigations completed</small>
+                <!-- INVESTIGATIONS -->
+
+                <div class="analytics-card">
+
+                    <div class="analytics-icon">
+                        🔎
                     </div>
+
+                    <div class="analytics-content">
+
+                        <span>
+                            INVESTIGATIONS
+                        </span>
+
+                        <strong id="investigationValue">
+                            0
+                        </strong>
+
+                        <small>
+                            Security missions analysed
+                        </small>
+
+                    </div>
+
                 </div>
 
-                <div class="analytics-card">
-                    <div class="analytics-icon">⚠️</div>
 
-                    <div class="analytics-info">
-                        <span>ANOMALIES DETECTED</span>
-                        <strong id="anomalyValue">0</strong>
-                        <small>Network anomalies identified</small>
+
+                <!-- ANOMALIES -->
+
+                <div class="analytics-card">
+
+                    <div class="analytics-icon">
+                        ⚠️
                     </div>
+
+                    <div class="analytics-content">
+
+                        <span>
+                            ANOMALIES DETECTED
+                        </span>
+
+                        <strong id="anomalyValue">
+                            0
+                        </strong>
+
+                        <small>
+                            Network anomalies identified
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- COMPLETION RATE -->
+
+                <div class="analytics-card">
+
+                    <div class="analytics-icon">
+                        🎯
+                    </div>
+
+                    <div class="analytics-content">
+
+                        <span>
+                            COMPLETION RATE
+                        </span>
+
+                        <strong id="analyticsAccuracyValue">
+                            0%
+                        </strong>
+
+                        <small>
+                            Mission completion
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- TOTAL XP -->
+
+                <div class="analytics-card">
+
+                    <div class="analytics-icon">
+                        ⚡
+                    </div>
+
+                    <div class="analytics-content">
+
+                        <span>
+                            TOTAL XP
+                        </span>
+
+                        <strong id="analyticsXPValue">
+                            0
+                        </strong>
+
+                        <small>
+                            Security experience earned
+                        </small>
+
+                    </div>
+
                 </div>
 
             </div>
 
         </section>
 
-        <!-- ================= MODULES ================= -->
+
+
+        <!-- =================================================
+         INVESTIGATION OVERVIEW
+    ================================================== -->
+
+        <section class="analytics-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-label">
+                        NETWORK SECURITY
+                    </p>
+
+                    <h2>
+                        Investigation Overview
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="analytics-grid">
+
+
+                <div class="analytics-card">
+
+                    <div class="analytics-icon">
+                        🔎
+                    </div>
+
+                    <div class="analytics-content">
+
+                        <span>
+                            INVESTIGATIONS
+                        </span>
+
+                        <strong id="overviewInvestigationValue">
+                            0
+                        </strong>
+
+                        <small>
+                            Total investigations completed
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="analytics-card">
+
+                    <div class="analytics-icon">
+                        ⚠️
+                    </div>
+
+                    <div class="analytics-content">
+
+                        <span>
+                            ANOMALIES
+                        </span>
+
+                        <strong id="overviewAnomalyValue">
+                            0
+                        </strong>
+
+                        <small>
+                            Anomalies identified
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+         SECURITY MODULES
+    ================================================== -->
 
         <section class="modules-section">
 
@@ -440,7 +786,7 @@
                 <div>
 
                     <p class="section-label">
-                        TRAINING CENTER
+                        TRAINING SYSTEM
                     </p>
 
                     <h2>
@@ -459,122 +805,137 @@
 
                 <div class="module-card">
 
-                    <div class="module-header">
+                    <div class="module-icon">
+                        📚
+                    </div>
 
-                        <div class="module-icon blue">
-                            📚
-                        </div>
+                    <div class="module-content">
 
-                        <span class="module-number">
-                            01
+                        <span class="module-label">
+                            LEARN
                         </span>
 
+                        <p>
+                            Learn networking fundamentals,
+                            packet analysis and cybersecurity
+                            concepts.
+                        </p>
+
+                        <div class="module-tags">
+
+                            <span>
+                                NETWORKING
+                            </span>
+
+                            <span>
+                                SECURITY
+                            </span>
+
+                            <span>
+                                THEORY
+                            </span>
+
+                        </div>
+
                     </div>
 
-                    <h3>
-                        LEARN
-                    </h3>
 
-                    <p>
-                        Learn networking fundamentals,
-                        packet structure and basic
-                        cybersecurity concepts.
-                    </p>
-
-                    <div class="module-topics">
-
-                        <span>NETWORKS</span>
-                        <span>PACKETS</span>
-                        <span>SECURITY</span>
-
-                    </div>
-
-                    <button class="module-button">
+                    <button class="module-button" onclick="window.location.href='simulator.html'">
                         START LEARNING →
                     </button>
 
                 </div>
 
 
+
                 <!-- SIMULATE -->
 
-                <div class="module-card featured">
+                <div class="module-card">
 
-                    <div class="module-header">
+                    <div class="module-icon">
+                        ⚡
+                    </div>
 
-                        <div class="module-icon cyan">
-                            ⚡
-                        </div>
+                    <div class="module-content">
 
-                        <span class="module-number">
-                            02
+                        <span class="module-label">
+                            SIMULATE
                         </span>
 
+                        <p>
+                            Generate simulated network traffic
+                            and investigate packet behaviour
+                            in real time.
+                        </p>
+
+                        <div class="module-tags">
+
+                            <span>
+                                TCP
+                            </span>
+
+                            <span>
+                                UDP
+                            </span>
+
+                            <span>
+                                PACKETS
+                            </span>
+
+                        </div>
+
                     </div>
 
-                    <h3>
-                        SIMULATE
-                    </h3>
 
-                    <p>
-                        Generate controlled network
-                        traffic and observe packet
-                        behaviour in real time.
-                    </p>
-
-                    <div class="module-topics">
-
-                        <span>TCP</span>
-                        <span>UDP</span>
-                        <span>TRAFFIC</span>
-
-                    </div>
-
-                    <button class="module-button" onclick="startSimulation()">
-
-                        START SIMULATION →
-
+                    <button class="module-button" onclick="window.location.href='simulator.html'">
+                        LAUNCH SIMULATOR →
                     </button>
 
                 </div>
+
 
 
                 <!-- ANALYSE -->
 
                 <div class="module-card">
 
-                    <div class="module-header">
+                    <div class="module-icon">
+                        🔍
+                    </div>
 
-                        <div class="module-icon purple">
-                            🔍
-                        </div>
+                    <div class="module-content">
 
-                        <span class="module-number">
-                            03
+                        <span class="module-label">
+                            ANALYSE
                         </span>
 
+                        <p>
+                            Analyse packet behaviour,
+                            identify anomalies and investigate
+                            possible security threats.
+                        </p>
+
+                        <div class="module-tags">
+
+                            <span>
+                                ANALYSIS
+                            </span>
+
+                            <span>
+                                THREATS
+                            </span>
+
+                            <span>
+                                DETECTION
+                            </span>
+
+                        </div>
+
                     </div>
 
-                    <h3>
-                        ANALYSE
-                    </h3>
 
-                    <p>
-                        Inspect packets, identify
-                        anomalies and investigate
-                        suspicious behaviour.
-                    </p>
-
-                    <div class="module-topics">
-
-                        <span>ANOMALIES</span>
-                        <span>FORENSICS</span>
-                        <span>THREATS</span>
-
-                    </div>
-
-                    <button class="module-button">
-                        OPEN ANALYZER →
+                    <button class="module-button" onclick="window.location.href='simulator.html'">
+                        START ANALYSIS →
                     </button>
 
                 </div>
@@ -584,62 +945,71 @@
         </section>
 
 
-        <!-- ================= MISSION ================= -->
 
-        <section class="mission-card">
+        <!-- =================================================
+         RECOMMENDED MISSION
+    ================================================== -->
 
-            <div class="mission-icon">
+        <section class="recommended-mission">
+
+            <div class="recommended-icon">
                 🛡️
             </div>
 
-            <div class="mission-content">
+            <div class="recommended-content">
 
-                <span class="mission-label">
+                <p class="section-label">
                     RECOMMENDED MISSION
-                </span>
+                </p>
 
-                <h2>
-                    Mission 01 — Packet Stream
-                </h2>
+                <h3>
+                    Mission 01 — Packet Storm
+                </h3>
 
                 <p>
-                    Analyze a simulated network stream
-                    and identify abnormal packet behaviour.
+                    Investigate simulated network traffic
+                    and identify suspicious packet behaviour.
                 </p>
 
             </div>
 
-            <div>
 
-                <button class="mission-button" onclick="startSimulation()">
-
-                    START MISSION
-
-                </button>
-
-            </div>
+            <button class="recommended-button" onclick="window.location.href='simulator.html'">
+                START MISSION →
+            </button>
 
         </section>
 
 
-        <!-- ================= FOOTER ================= -->
 
-        <footer>
+    </main>
 
-            <span>
-                PACKETGUARD v1.0
-            </span>
 
-            <span>
-                LEARN • SIMULATE • DETECT • DEFEND
-            </span>
 
-        </footer>
+    <!-- =====================================================
+     FOOTER
+===================================================== -->
 
-    </div>
+    <footer class="dashboard-footer">
 
+        <span>
+            PACKETGUARD SECURITY LAB
+        </span>
+
+        <span>
+            Network Simulation • Threat Detection • Gamified Learning
+        </span>
+
+    </footer>
+
+
+
+    <!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
 
     <script src="js/dashboard.js"></script>
+
 
 </body>
 

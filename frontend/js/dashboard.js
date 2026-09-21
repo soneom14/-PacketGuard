@@ -117,6 +117,10 @@ function updatePlayerProfile() {
     }
 
 
+    // -----------------------------
+    // LEVEL THRESHOLDS
+    // -----------------------------
+
     let currentThreshold = 0;
     let nextThreshold = 50;
 
@@ -150,6 +154,10 @@ function updatePlayerProfile() {
     }
 
 
+    // -----------------------------
+    // NEXT XP
+    // -----------------------------
+
     if (nextXPElement) {
 
         if (level === 5) {
@@ -168,6 +176,10 @@ function updatePlayerProfile() {
 
     }
 
+
+    // -----------------------------
+    // PROFILE PROGRESS
+    // -----------------------------
 
     if (progressElement) {
 
@@ -204,7 +216,7 @@ function updatePlayerProfile() {
 
 
 // =========================================
-// DASHBOARD ACCURACY
+// DASHBOARD COMPLETION RATE
 // =========================================
 
 function updateDashboardAccuracy() {
@@ -228,8 +240,9 @@ function updateDashboardAccuracy() {
         function (mission) {
 
             if (
-                localStorage.getItem(mission)
-                === "completed"
+                localStorage.getItem(
+                    mission
+                ) === "completed"
             ) {
 
                 completedCount++;
@@ -239,6 +252,10 @@ function updateDashboardAccuracy() {
         }
     );
 
+
+    // -----------------------------------------
+    // Calculate mission completion percentage
+    // -----------------------------------------
 
     const accuracy =
         missions.length > 0
@@ -251,6 +268,10 @@ function updateDashboardAccuracy() {
             : 0;
 
 
+    // -----------------------------------------
+    // Original statistics card
+    // -----------------------------------------
+
     const accuracyElement =
         document.getElementById(
             "accuracyValue"
@@ -260,6 +281,24 @@ function updateDashboardAccuracy() {
     if (accuracyElement) {
 
         accuracyElement.textContent =
+            accuracy + "%";
+
+    }
+
+
+    // -----------------------------------------
+    // Security Analytics card
+    // -----------------------------------------
+
+    const analyticsAccuracyElement =
+        document.getElementById(
+            "analyticsAccuracyValue"
+        );
+
+
+    if (analyticsAccuracyElement) {
+
+        analyticsAccuracyElement.textContent =
             accuracy + "%";
 
     }
@@ -309,22 +348,13 @@ function updateDashboardStats() {
     }
 
 
-    /*
-        Find the level stat card.
-
-        We also update the XP card using
-        its existing ID.
-    */
+    // -----------------------------------------
+    // Level card
+    // -----------------------------------------
 
     const levelElement =
-        document.querySelector(
-            ".stat-card:first-child .stat-value"
-        );
-
-
-    const xpElement =
         document.getElementById(
-            "xpValue"
+            "dashboardLevelValue"
         );
 
 
@@ -339,9 +369,37 @@ function updateDashboardStats() {
     }
 
 
+    // -----------------------------------------
+    // Original XP card
+    // -----------------------------------------
+
+    const xpElement =
+        document.getElementById(
+            "xpValue"
+        );
+
+
     if (xpElement) {
 
         xpElement.textContent =
+            xp;
+
+    }
+
+
+    // -----------------------------------------
+    // Security Analytics XP card
+    // -----------------------------------------
+
+    const analyticsXPElement =
+        document.getElementById(
+            "analyticsXPValue"
+        );
+
+
+    if (analyticsXPElement) {
+
+        analyticsXPElement.textContent =
             xp;
 
     }
@@ -366,6 +424,10 @@ function updateXPProgress() {
     let currentThreshold = 0;
     let nextThreshold = 50;
 
+
+    // -----------------------------------------
+    // Determine level range
+    // -----------------------------------------
 
     if (xp >= 350) {
 
@@ -396,23 +458,47 @@ function updateXPProgress() {
     }
 
 
-    const progressFill =
+    // -----------------------------------------
+    // Profile progress
+    // -----------------------------------------
+
+    const profileProgressFill =
         document.getElementById(
             "profileProgressFill"
         );
 
 
-    const currentXP =
+    const profileCurrentXP =
         document.getElementById(
             "profileXP"
         );
 
 
-    const nextXP =
+    const profileNextXP =
         document.getElementById(
             "profileNextXP"
         );
 
+
+    // -----------------------------------------
+    // Dashboard statistics progress
+    // -----------------------------------------
+
+    const dashboardProgressFill =
+        document.getElementById(
+            "dashboardLevelProgress"
+        );
+
+
+    const dashboardXPProgress =
+        document.getElementById(
+            "dashboardXPProgress"
+        );
+
+
+    // -----------------------------------------
+    // Calculate progress
+    // -----------------------------------------
 
     let progress = 100;
 
@@ -438,28 +524,66 @@ function updateXPProgress() {
     }
 
 
-    if (progressFill) {
+    // -----------------------------------------
+    // Update profile progress
+    // -----------------------------------------
 
-        progressFill.style.width =
+    if (profileProgressFill) {
+
+        profileProgressFill.style.width =
             progress + "%";
 
     }
 
 
-    if (currentXP) {
+    if (profileCurrentXP) {
 
-        currentXP.textContent =
+        profileCurrentXP.textContent =
             xp + " XP";
 
     }
 
 
-    if (nextXP) {
+    if (profileNextXP) {
 
-        nextXP.textContent =
+        profileNextXP.textContent =
             xp >= 350
                 ? "MAX LEVEL"
                 : nextThreshold + " XP";
+
+    }
+
+
+    // -----------------------------------------
+    // Update dashboard statistics progress
+    // -----------------------------------------
+
+    if (dashboardProgressFill) {
+
+        dashboardProgressFill.style.width =
+            progress + "%";
+
+    }
+
+
+    if (dashboardXPProgress) {
+
+        if (xp >= 350) {
+
+            dashboardXPProgress.textContent =
+                "MAX LEVEL";
+
+        }
+
+        else {
+
+            dashboardXPProgress.textContent =
+                xp +
+                " / " +
+                nextThreshold +
+                " XP";
+
+        }
 
     }
 
@@ -559,6 +683,10 @@ function updateMissionProgress() {
     );
 
 
+    // -----------------------------------------
+    // Mission count
+    // -----------------------------------------
+
     const countElement =
         document.getElementById(
             "dashboardMissionCount"
@@ -573,6 +701,10 @@ function updateMissionProgress() {
 
     }
 
+
+    // -----------------------------------------
+    // Original mission statistic
+    // -----------------------------------------
 
     const missionValue =
         document.getElementById(
@@ -608,6 +740,10 @@ function updateSecurityAnalytics() {
     ];
 
 
+    // -----------------------------------------
+    // Count completed missions
+    // -----------------------------------------
+
     let completedMissions = 0;
 
 
@@ -628,19 +764,23 @@ function updateSecurityAnalytics() {
     );
 
 
-    /*
-        Every completed mission represents
-        one completed investigation.
-    */
+    // -----------------------------------------
+    // Investigations
+    // -----------------------------------------
 
     const investigations =
         completedMissions;
 
 
-    /*
-        Missions 02-05 correspond to
-        the four network anomaly types.
-    */
+    // -----------------------------------------
+    // Count anomaly missions
+    //
+    // Missions 02-05 represent:
+    // 02 = Packet Loss
+    // 03 = Duplicate
+    // 04 = Reordering
+    // 05 = Tampering
+    // -----------------------------------------
 
     let anomaliesDetected = 0;
 
@@ -663,6 +803,10 @@ function updateSecurityAnalytics() {
 
     }
 
+
+    // -----------------------------------------
+    // Security Analytics elements
+    // -----------------------------------------
 
     const investigationElement =
         document.getElementById(
@@ -691,6 +835,80 @@ function updateSecurityAnalytics() {
 
     }
 
+
+    // -----------------------------------------
+    // Investigation Overview elements
+    // -----------------------------------------
+
+    const overviewInvestigationElement =
+        document.getElementById(
+            "overviewInvestigationValue"
+        );
+
+
+    const overviewAnomalyElement =
+        document.getElementById(
+            "overviewAnomalyValue"
+        );
+
+
+    if (overviewInvestigationElement) {
+
+        overviewInvestigationElement.textContent =
+            investigations;
+
+    }
+
+
+    if (overviewAnomalyElement) {
+
+        overviewAnomalyElement.textContent =
+            anomaliesDetected;
+
+    }
+
+}
+
+
+// =========================================
+// UPDATE USERNAME
+// =========================================
+
+function updateDashboardUsername() {
+
+    const username =
+        localStorage.getItem(
+            "packetguardUsername"
+        ) || "Defender";
+
+
+    const dashboardUsername =
+        document.getElementById(
+            "dashboardUsername"
+        );
+
+
+    const welcomeUsername =
+        document.getElementById(
+            "welcomeUsername"
+        );
+
+
+    if (dashboardUsername) {
+
+        dashboardUsername.textContent =
+            username;
+
+    }
+
+
+    if (welcomeUsername) {
+
+        welcomeUsername.textContent =
+            username;
+
+    }
+
 }
 
 
@@ -701,6 +919,8 @@ function updateSecurityAnalytics() {
 document.addEventListener(
     "DOMContentLoaded",
     function () {
+
+        updateDashboardUsername();
 
         updatePlayerProfile();
 
