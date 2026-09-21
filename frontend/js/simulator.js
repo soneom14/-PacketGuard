@@ -3238,3 +3238,41 @@ document.addEventListener(
         }, 100);
     }
 );
+
+// =========================================
+// PACKETGUARD ACCURACY TRACKING
+// =========================================
+
+function recordMissionAttempt(isCorrect) {
+
+    let attempts =
+        Number(
+            localStorage.getItem(
+                "packetguardAttempts"
+            )
+        ) || 0;
+
+    let correct =
+        Number(
+            localStorage.getItem(
+                "packetguardCorrect"
+            )
+        ) || 0;
+
+    attempts++;
+
+    if (isCorrect) {
+        correct++;
+    }
+
+    localStorage.setItem(
+        "packetguardAttempts",
+        attempts
+    );
+
+    localStorage.setItem(
+        "packetguardCorrect",
+        correct
+    );
+
+}
