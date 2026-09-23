@@ -978,17 +978,14 @@ function answerMission(answer) {
         return;
     }
 
-
     const feedback =
         document.getElementById(
             "missionFeedback"
         );
 
-
     if (!feedback) {
         return;
     }
-
 
     // =========================================
     // DETERMINE CORRECT ANSWER
@@ -996,10 +993,8 @@ function answerMission(answer) {
 
     let correctAnswer = "NORMAL";
 
-
     const threats =
         threatResult.threats || [];
-
 
     const hasTampering =
         threats.some(
@@ -1008,7 +1003,6 @@ function answerMission(answer) {
                 "POSSIBLE_TAMPERING"
         );
 
-
     const hasReplay =
         threats.some(
             threat =>
@@ -1016,13 +1010,11 @@ function answerMission(answer) {
                 "POSSIBLE_REPLAY_ACTIVITY"
         );
 
-
     const packetLoss =
         analysisResult &&
             analysisResult.summary
             ? analysisResult.summary.packet_loss || 0
             : 0;
-
 
     // Tampering has highest priority
     if (hasTampering) {
@@ -1046,7 +1038,6 @@ function answerMission(answer) {
 
     }
 
-
     // =========================================
     // CHECK ANSWER
     // =========================================
@@ -1061,6 +1052,8 @@ function answerMission(answer) {
             return;
         }
 
+        // Record CORRECT attempt
+        recordMissionAttempt(true);
 
         feedback.dataset.completed =
             "true";
@@ -1072,7 +1065,6 @@ function answerMission(answer) {
 
         unlockMission02();
 
-
         // Award mission points
         score += 50;
 
@@ -1083,12 +1075,10 @@ function answerMission(answer) {
 
         updateLevel();
 
-
         const scoreElement =
             document.getElementById(
                 "score"
             );
-
 
         if (scoreElement) {
 
@@ -1097,16 +1087,18 @@ function answerMission(answer) {
 
         }
 
-
-        // Disable all mission buttons
+        // Disable Mission 01 buttons only
         const mission01Panel =
-            document.getElementById("missionPanel");
+            document.getElementById(
+                "missionPanel"
+            );
 
         const buttons =
             mission01Panel
-                ? mission01Panel.querySelectorAll(".mission-option")
+                ? mission01Panel.querySelectorAll(
+                    ".mission-option"
+                )
                 : [];
-
 
         buttons.forEach(button => {
 
@@ -1117,7 +1109,6 @@ function answerMission(answer) {
                 "default";
 
         });
-
 
         feedback.innerHTML = `
 
@@ -1135,7 +1126,8 @@ function answerMission(answer) {
                     ? "Replay Activity"
                     : answer === "PACKET_LOSS"
                         ? "Packet Loss"
-                        : "Normal Network Behaviour"}
+                        : "Normal Network Behaviour"
+            }
             </strong>
 
             <br>
@@ -1144,14 +1136,11 @@ function answerMission(answer) {
 
         `;
 
-
         feedback.style.border =
             "1px solid rgba(0, 255, 136, 0.4)";
 
-
         feedback.style.background =
             "rgba(0, 255, 136, 0.08)";
-
 
         feedback.style.color =
             "#00ff88";
@@ -1159,6 +1148,9 @@ function answerMission(answer) {
     }
 
     else {
+
+        // Record INCORRECT attempt
+        recordMissionAttempt(false);
 
         feedback.innerHTML = `
 
@@ -1174,14 +1166,11 @@ function answerMission(answer) {
 
         `;
 
-
         feedback.style.border =
             "1px solid rgba(255, 70, 70, 0.4)";
 
-
         feedback.style.background =
             "rgba(255, 70, 70, 0.08)";
-
 
         feedback.style.color =
             "#ff6666";
